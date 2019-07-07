@@ -1,0 +1,83 @@
+.login{
+  height:100%;
+}
+.login-form {
+    max-width: 300px;
+  }
+
+.login-form-forgot {
+    float: right;
+  }
+
+.login-form-button {
+    width: 100%;
+}
+.loginform{
+  display: -webkit-flex;
+  -webkit-align-items: center;
+  -webkit-justify-content: center;
+  width:500px;
+  height:400px;
+  background-color:white;
+  border-radius: 5px;
+}
+.loginform:focus{
+  border:none;
+}
+.formheader{
+  margin-left:-70%;
+  margin-top:-12%;
+  margin-bottom:20%;
+}
+.fresh{
+  width:71px;
+  height:81px;
+  margin-right:-159px;
+  background-image: url('/assets/images/u10.png');
+  background-repeat:no-repeat;
+  background-size: 100% 100%;
+}
+.fresh>span{
+  display:block;
+  text-align:right;
+  font-size:78%;
+  color:white;
+}
+
+input,#testlogin{
+  width:340px;
+  height:50px;
+}
+#testlogin{
+  font-size:18px;
+}
+/* img   width:1285px;height:773px; */
+.loginimg{
+  display: -webkit-flex;
+  flex-direction: column;
+  -webkit-justify-content: center;
+  -webkit-align-items: center;
+  width:100%;
+  height:100%;
+  background-image: url('/assets/images/Rectangle2.png');
+  background-repeat:no-repeat;
+  background-size: 100% 100%;
+}
+.text{
+  font-family: MFJianHei_Noncommercial-Regular;
+  color:white;
+  font-size:30px;
+  font-weight: bold;
+  margin-bottom:45px;
+}
+
+.liststyle{
+  position:absolute;
+  width:100%;
+  height:400px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  bottom:-410px;
+  left:0;
+  z-index:200;
+}

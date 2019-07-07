@@ -1,0 +1,204 @@
+<div class="my-content">
+    <div *ngIf="isLoading" class="loading">
+        <nz-spin></nz-spin>
+    </div>
+  <div class="head">
+    <div>
+      <span>回收人</span>
+      <input nz-input placeholder="输入工号或扫码"  #afterperson (keyup)="personKeyUp($event)" [(ngModel)]="afterPerson">
+</div>
+<!-- <div>
+    <span>下收人</span>
+    <input nz-input placeholder="输入工号" 
+      (keyup)="personKeyUp($event, 0)" [(ngModel)]="prePerson">
+</div> -->
+    <div>
+        <span>包条码</span>
+        <input nz-input placeholder="输入条码号或扫码" #packageinput
+          [(ngModel)]="packageId"
+          (keyup)="packageIdKeyUp($event)">
+    </div>
+    <!-- <div>
+        <span>日期</span> 
+        <nz-date-picker [nzFormat]="dateFormat" [(ngModel)]="formtime" [nzDisabledDate]="disabledDate" (ngModelChange)="getlist()"></nz-date-picker>
+    </div> -->
+  
+  </div>
+  <div class="content-content">
+    <div class="left">
+      <div class="table-detail" #tabledetail>
+        <div class="table-box" #tablebox [ngClass]="{'table-no-data': packageList.length == 0}">
+        <table>
+          <thead>
+            <tr class="thead">
+              <th style="width: 75px"></th>
+              <th>包条码</th>
+              <th>包名称</th>
+              <th>科室</th>
+              <th>材料数量</th>
+              <th>
+                <nz-dropdown>
+                  <span nz-dropdown>包状态<i class="anticon anticon-down"></i></span>
+                  <ul nz-menu nzSelectable>
+                      <li nz-menu-item (click)="selectPackageStatus('全部')">
+                          <a>全部</a>
+                        </li>
+                    <li nz-menu-item (click)="selectPackageStatus('直接回收')">
+                      <a>其它回收</a>
+                    </li>
+                    <li nz-menu-item (click)="selectPackageStatus('过期回收')">
+                      <a>过期回收</a>
+                    </li>
+                    <li nz-menu-item (click)="selectPackageStatus('使用回收')">
+                      <a>使用回收</a>
+                    </li>
+                    <li nz-menu-item (click)="selectPackageStatus('不合格回收')">
+                      <a>不合格回收</a>
+                    </li>
+                  </ul>
+                </nz-dropdown>
+              </th>
+              <th>关联清洗盘</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody [ngClass]="{showtbody:packageList.length != 0}" class="tbodyf">
+              <tr class="tbody"
+                *ngFor="let item of packageList" 
+                (click)="selectPackage(item)"
+                [ngClass]="{'tr-active': selectItem.hs_tmid == item.hs_tmid,'tr-notquilfy':item.bzt=='不合格'}">
+                <td style="text-align:center">
+                  <img src="../../../../../assets/images/emergent-on.png" 
+                    (click)="clickEmergent(item, $event)"
+                    *ngIf="item.isjj == 1"/>
+                  <img src="../../../../../assets/images/emergent-off.png" 
+                    (click)="clickEmergent(item, $event)"
+                    *ngIf="item.isjj != 1"/>
+                </td>
+                <td>{{item.hs_tmid}}</td>
+                <td>{{item.bmc}}</td>
+                <td>{{item.ksname}}</td>
+                <td>{{item.clsl}}</td>
+                <td>{{item.bzt}}
+                    <button style="font-size:14px;padding-left:5px;padding-right:5px;" *ngIf="item.bzt=='其它'" nz-button nzSize="'small'" (click)="unchart(item)">不合格</button>
+                </td>
+                <td>
+                  <nz-dropdown>
+                    <span nz-dropdown>
+                      <!-- <span class="plate" [ngClass]="{'isSelect': item.p_id}">{{item.p_name || '请选择'}}</span> -->
+                      <span class="plate" [ngClass]="{'isSelect': item.showpan!='请选择'}">{{item.name?item.name:'请选择'}}</span>
+                      <i class="anticon anticon-down"></i>
+                    </span>
+                    <ul nz-menu nzSelectable>
+                        <li nz-menu-item (click)="selectpan(item,null,$event)">
+                            <a>请选择</a>
+                        </li>  
+                         <!-- [ngClass]="{'isSelect': item&&item.panids&&item.panids.basket_id==value.basket_id}" -->
+                      <li nz-menu-item *ngFor="let value of plateList" (click)="selectpan(item,value,$event)">
+                        <span>{{value.basket_name}}</span>  
+                      </li>                 
+                    </ul>
+                  </nz-dropdown>
+                </td>
+                <td>
+                  <button nz-button  class="default1-button" (click)="cancelRecovery(item.hs_tmid, $event)">撤销</button>
+                </td>
+              </tr>
+          </tbody>
+        </table>
+        </div>
+        <div class="collect" *ngIf="packageList.length != 0">
+          <span>汇总</span>
+          <span class="num1">包数量:{{packageList.length}}</span>
+          <span class="num2">材料数量:{{material}}</span>
+        </div>
+        <div class="no-data" *ngIf="packageList.length == 0">
+          <img src="../../../../../assets/images/recovery-package-no-data.png"/>
+          <span class="no-data-text">请扫描包条码</span>
+        </div>
+      </div>
+      <div class="loss">
+        <div class="loss-head">
+          <div *ngIf="selectItem">
+            <span class="name">{{selectItem.bmc}}</span>
+            <span class="tab">|</span>
+            <span class="num">材料数量 {{selectItem.clsl}}</span>
+            <button nz-button  class="primary-button" (click)="getlosstype(tplTitle,tplFooter)">损耗登记</button>
+            <ng-template #tplTitle>
+                <span style="font-size:20px;">损耗登记</span>
+              </ng-template>
+              <ng-template #tplContent>
+               
+              </ng-template>
+              <ng-template #tplFooter>
+                    <button nz-button nzType="primary" (click)="destroyTplModal()">确定({{recovercount}})</button>
+              </ng-template>
+          </div>
+        </div>
+        <div class="loss-body" #losscontent>
+          <div class="loss-content"  *ngIf="materialArray.length !== 0">
+            <img [src]="activeImg"/>
+            <div class="appliance-list">
+              <div class="row" *ngFor="let item of materialArray, let index1 = index">
+                <span class="item" *ngFor="let childItem of item, let index2 = index">
+                  {{index1 * 5 + index2 + 1}}.{{childItem.clmc}}*{{childItem.clsl}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="loss-content loss-no-data" *ngIf="materialArray.length === 0">
+            <img src="../../../../../assets/images/recovery-loss-no-data.png"/>
+            <span class="no-data-text">包内容</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="right">
+      <input nz-input placeholder="输入或扫码清洗盘" [(ngModel)]="palteid" #plate (keydown.enter)="getsignplate()">
+      <div class="card-box" *ngIf='plateList.length != 0'>
+        <div class="card" *ngFor="let item of plateList" (click)="cardClick(item,tplTitle,tplFooter,tplContent)">
+          <span class="num">{{item.bsl}}</span>
+          <span class="name">{{item.basket_name}}</span>
+        </div>
+      </div>
+
+      <div class="right-footer" *ngIf='plateList.length != 0'>
+        <button nz-button  class="primary-button" (click)="bindplate()">绑定清洗盘({{cleannum}})</button>
+      </div>
+      <!-- <div class="no-data" *ngIf='plateList.length == 0'> -->
+      <div class="no-data" *ngIf='plateList.length == 0'>
+        <img src="../../../../../assets/images/recovery-plate-no-data.png"/>
+        <span class="no-data-text">请扫描清洗盘</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #tplTitle>
+        <span style="font-size:20px;">{{tempPan.basket_name}}</span>
+  </ng-template>
+  <ng-template #tplContent>
+        <nz-list [nzDataSource]="panlist" nzBordered
+        [nzRenderItem]="item" [nzHeader]="header" style="background-color:#E9E9E9;max-height:500px;overflow-y:scroll;">
+        <ng-template #item let-item>
+          <nz-list-item nz-row nzType="flex" nzJustify="space-around" nzAlign="middle" style="background-color:white;">  
+              <div nz-col nzSpan="6" style="text-align:center;">{{item.bmc}}</div> 
+              <div nz-col nzSpan="6" style="text-align:center;">{{item.hs_tmid}}</div> 
+              <button *ngIf="!item.showpan" nz-button  class="default1-button" (click)="cancelPackage(item, $event)">撤销</button>  
+              <button *ngIf="item.showpan" nz-button  class="default1-button" disabled>未绑定</button>            
+          </nz-list-item>
+        </ng-template>
+        <ng-template #header let-header>
+            <div nz-row nzType="flex" nzJustify="space-around" nzAlign="middle" class="test">
+                    <div nz-col nzSpan="6"  style="text-align:center;">包名称</div>     
+                    <div nz-col nzSpan="6"  style="text-align:center;">包条码</div> 
+                    <div nz-col nzSpan="6"  style="text-align:center;">操作</div>                  
+            </div>
+        </ng-template>
+    </nz-list>
+    
+  </ng-template>
+  <ng-template #tplFooter>
+    <button nz-button nzType="primary" (click)="surechangepan()">确定</button>
+  </ng-template>
+  

@@ -1,0 +1,17 @@
+<div class="header">
+    <i class="anticon anticon-left" (click)="gobackhome()"></i>
+    <span class="title" (click)="gobackhome()">{{deptName}}</span>
+    <span class="userinfo">欢迎您,{{userName}}</span>
+    <span class="userinfo">{{deptName}} |</span>
+    <span class="out" (click)="loginout()">退出</span>
+    <span style="color:#5D96F4;background-color:white;text-align:center;" class="likebutton"  (click)="doToRecovery()" > 待回收{{count}} </span>
+    <!-- <button nz-button nzType="default" nzSize="large" style="color:#5D96F4;"  (click)="createComponentModal(tplFooter)" [nzLoading]="isLoading" >待回收{{count}}</button> -->
+    <button nz-button nzType="default" nzSize="large" disabled>今日回收{{todayrecovery}}</button>    
+    <!-- <button nz-button nzType="default" class="default-button" (click)="success()">本次回收{{todayrecoverycount}}</button>  -->
+    <button nz-button nzType="default" nzSize="large" disabled>本次回收{{todayrecoverycount}}</button> 
+</div>
+<ng-template #tplFooter>
+  <button nz-button nzType="primary" (click)="onClick()">回收</button>
+</ng-template>
+
+

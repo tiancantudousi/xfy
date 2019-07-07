@@ -1,0 +1,216 @@
+<div class="washresult">
+  <div class="left">
+
+    <nz-date-picker style="margin:10px auto;" [nzFormat]="dateFormat" [(ngModel)]="choosetime" [nzDisabledDate]="disabledDate"
+      (ngModelChange)="getlist()"></nz-date-picker>
+    <nz-list *ngIf="washresult.length!=0" [nzDataSource]="washresult" nzBordered [nzRenderItem]="item" class="liststyle">
+      <ng-template #item let-item>
+        <nz-list-item nz-row nzType="flex" nzAlign="middle" [class.changecolor]="item.active" class="washlist" (click)="choosemachine(item)">
+          <!-- <div class="circle">
+            <span [class]="colorstate(item.result_name)">{{item.result_name}}</span>
+          </div> -->
+          <!-- <div class="rightdiv"> -->
+              <img src="./../../../../../assets/images/device_qxj.png" alt="">
+              <div class="outdiv" style="display:flex;flex-direction: column;-webkit-flex: 1;">
+                 <p style="color:#293660;font-size:14px;text-align:left;padding-left:8px;">{{item.dev_name}}</p>
+                 <div style="display:flex;">
+                        <div style="width:65%;" class="rightdiv">
+                            <p style="font-size:12px;color:#293660;text-align:left;">日/总锅次:{{item.d_gc}}/{{item.t_gc}}</p>
+                            <div class="metiralstate" *ngIf="item.type!='1'">
+                                <div>
+                                  <span>物理</span>
+                                  <i *ngIf="item.wl_result=='0'" nz-icon class='anticon anticon-close colorred'></i>
+                                  <i *ngIf="item.wl_result=='1'" nz-icon class='anticon anticon-check colorgreen'></i>
+                                  <i *ngIf="item.wl_result!='0'&&item.wl_result!='1'" nz-icon class='anticon anticon-exclamation coloryellow'></i>
+                                </div>
+                                <div>
+                                  <span>化学</span>
+                                  <i *ngIf="item.hx_result=='0'" nz-icon class='anticon anticon-close colorred'></i>
+                                  <i *ngIf="item.hx_result=='1'" nz-icon class='anticon anticon-check colorgreen'></i>
+                                  <i *ngIf="item.hx_result!='0'&&item.hx_result!='1'" nz-icon class='anticon anticon-exclamation coloryellow'></i>
+                                </div>
+                                <div>
+                                  <span>生物</span>
+                                  <i *ngIf="item.sw_result=='0'" nz-icon class='anticon anticon-close colorred'></i>
+                                  <i *ngIf="item.sw_result=='1'" nz-icon class='anticon anticon-check colorgreen'></i>
+                                  <i *ngIf="item.sw_result!='0'&&item.sw_result!='1'" nz-icon class='anticon anticon-exclamation coloryellow'></i>
+                                </div>
+                              </div>
+                              <p *ngIf="item.type=='1'" class="test">BD检测</p>
+                              <p>{{item.start_dt|getHMS|date:'HH:mm:ss'}}</p>
+                       </div>  
+                       <div class="circle"> <span [ngClass]="{prepare:item.result=='1',blank:item.result=='0',tobetest:item.result_name=='待检定',washing:item.result=='2'}">{{item.result_name}}</span> </div>               
+                 </div>
+                
+              </div>
+            <!-- <div style="color:#293660;font-size:14px;">{{item.dev_name}}</div>
+            <div style="font-size:12px;color:#666666;">日锅次:{{item.d_gc}}</div>
+            <div style="font-size:12px;color:#666666;">总锅次:{{item.t_gc}}</div>
+            <div class="metiralstate" *ngIf="item.type!='1'">
+              <div>
+                <span>物理</span>
+                <i *ngIf="item.wl_result=='0'" nz-icon class='anticon anticon-close colorred'></i>
+                <i *ngIf="item.wl_result=='1'" nz-icon class='anticon anticon-check colorgreen'></i>
+                <i *ngIf="item.wl_result!='0'&&item.wl_result!='1'" nz-icon class='anticon anticon-exclamation coloryellow'></i>
+              </div>
+              <div>
+                <span>化学</span>
+                <i *ngIf="item.hx_result=='0'" nz-icon class='anticon anticon-close colorred'></i>
+                <i *ngIf="item.hx_result=='1'" nz-icon class='anticon anticon-check colorgreen'></i>
+                <i *ngIf="item.hx_result!='0'&&item.hx_result!='1'" nz-icon class='anticon anticon-exclamation coloryellow'></i>
+              </div>
+              <div>
+                <span>生物</span>
+                <i *ngIf="item.sw_result=='0'" nz-icon class='anticon anticon-close colorred'></i>
+                <i *ngIf="item.sw_result=='1'" nz-icon class='anticon anticon-check colorgreen'></i>
+                <i *ngIf="item.sw_result!='0'&&item.sw_result!='1'" nz-icon class='anticon anticon-exclamation coloryellow'></i>
+              </div>
+            </div>
+            <div *ngIf="item.type=='1'">BD检测</div> -->
+            <!-- <div>{{item.start_dt|getHMS|date:'HH:mm:ss'}}</div> -->
+          <!-- </div> -->
+        </nz-list-item>
+      </ng-template>
+    </nz-list>
+  </div>
+  <div class="right" *ngIf="chosenmachine">
+    <div class="rightheader">
+      <span>{{chosenmachine.dev_name}}({{chosenmachine.d_gc}}/{{chosenmachine.t_gc}})</span>
+      <div class="starttime">
+        <span style="padding-right:20px;">开始时间:{{chosenmachine.start_dt}}</span>
+      </div>
+    </div>
+    <div class="content">
+      <div class="status">
+        <div>
+          <span>温度</span>
+
+          <nz-input-group nzSearch [nzSuffix]="suffixButton">
+            <input type="text" [readonly]='readonlyForm' [(ngModel)]="tempreture" nz-input placeholder="">
+          </nz-input-group>
+          <ng-template #suffixButton>
+            <span style="padding-right:10px;">℃</span>
+          </ng-template>
+
+        </div>
+
+        <div>
+          <span>压力</span>
+          <nz-input-group nzSearch [nzSuffix]="suffixKButton">
+            <input type="text" [readonly]='readonlyForm' [(ngModel)]="hightpreture" nz-input placeholder="">
+          </nz-input-group>
+          <ng-template #suffixKButton>
+            <span style="padding-right:10px;">KPa</span>
+          </ng-template>
+        </div>
+        <div>
+          <span>时间</span>
+          <nz-input-group nzSearch [nzSuffix]="suffixKButtontime">
+            <input type="text" [readonly]='readonlyForm' [(ngModel)]="usetime" nz-input placeholder="">
+          </nz-input-group>
+          <ng-template #suffixKButtontime>
+            <span style="padding-right:10px;">分钟</span>
+          </ng-template>
+        </div>
+      </div>
+      <!-- <div *ngIf="chosenmachine.result!='1'&&chosenmachine.result!='0'">           -->
+      <div class="check" *ngIf="chosenmachine.type!='1'">
+        <div>
+          <span>物理检测</span>
+          <nz-button-group>
+            <button nz-button [class.red]="wlcolor&&wlcolor!='primary'" (click)="togleResons('0',tplTitleUn,tplFooterUn,tplContentUn)">不合格</button>
+            <button nz-button [nzType]="wlcolor" (click)="standard('0')">合格</button>
+            <!-- <button nz-button  [nzType]="wlcolor?'default':'primary'" (click)="standard('0')">合格</button> -->
+          </nz-button-group>
+        </div>
+        <div>
+          <span>化学检测</span>
+          <nz-button-group>
+            <button nz-button [class.red]="hxcolor&&hxcolor!='primary'" (click)="togleResons('1',tplTitleUn,tplFooterUn,tplContentUn)">不合格</button>
+            <button nz-button [nzType]="hxcolor" (click)="standard('1')">合格</button>
+            <!-- <button nz-button [nzType]="hxcolor?'default':'primary'" (click)="standard('1')">合格</button> -->
+          </nz-button-group>
+        </div>
+        <div>
+          <span>生物检测</span>
+          <nz-button-group>
+            <button nz-button [class.red]="swcolor&&swcolor!='primary'" (click)="togleResons('2',tplTitleUn,tplFooterUn,tplContentUn)">不合格</button>
+
+            <button nz-button [nzType]="swcolor" (click)="standard('2')">合格</button>
+          </nz-button-group>
+        </div>
+      </div>
+      <div class="check" *ngIf="chosenmachine.type=='1'">
+        <div>
+          <span>BD检测</span>
+          <nz-button-group>
+            <button nz-button [class.red]="nmcolor&&nmcolor!='primary'" (click)="togleResons('4',tplTitleUn,tplFooterUn,tplContentUn)">不合格</button>
+            <button nz-button [nzType]="nmcolor" (click)="standard('4')">合格</button>
+            <!-- <button nz-button  [nzType]="wlcolor?'default':'primary'" (click)="standard('0')">合格</button> -->
+          </nz-button-group>
+        </div>
+
+      </div>
+      <!-- <div *ngIf="chosenmachine.type=='1'&&chosenmachine.result!='1'&&chosenmachine.result!='0'" button-trigger changeType="primary" class="bottombtn">
+                        <button nz-button  btntoggle (click)="standard('3')">合格</button>
+                        <button nz-button btntoggle  (click)="choseResons(tplTitleUn,tplFooterUn,tplContentUn)">不合格</button>
+                    </div> -->
+      <!-- <div style="margin-top:20px;">
+                        <button nz-button (click)="choseResons(tplTitleUn,tplFooterUn,tplContentUn)">不合格原因</button> {{unquilfreson}}
+                    </div> -->
+      <!-- </div> -->
+    </div>
+    <!-- <div *ngIf="chosenmachine.type=='1'" class="bottombtn">*ngIf="chosenmachine.type!='1'"
+                <button nz-button [nzType]="pan" (click)="qualified(null)">合格</button>
+                <button nz-button [nzType]="pan" (click)="togleResons('3',tplTitleUn,tplFooterUn,tplContentUn)">不合格</button>
+          </div> -->
+    <div class="bottombtnsure" button-trigger changeType="primary">
+      <button nz-button btntoggle class="ant-btn-primary" *ngIf="checkstate!='1'" (click)="sure()" [innerHTML]="surebtn" [disabled]="suredisable"></button>
+      <button nz-button btntoggle *ngIf="chosenmachine.result_name!='待检定'&&!chosenmachine.sw_result" [disabled]="suredisableone"
+        (click)="nolmal()">确定</button>
+    </div>
+  </div>
+
+  <div *ngIf="!chosenmachine" class="nodata">
+    <img src="/assets/images/washcontent.png" alt="">
+    <span>检定内容</span>
+  </div>
+</div>
+
+
+
+<ng-template #tplTitleUn>
+  <span style="font-size:20px;">不合格原因</span>
+</ng-template>
+<ng-template #tplContentUn>
+  <ul button-trigger changeType="primary" class="modalcontent">
+    <li *ngFor="let item of unStandards;let i=index;">
+      <button [class.ant-btn-primary]="i==0" class="blockbtn" nz-button btntoggle nzBlock (click)="choseReson(item)">{{item.aaa103}}</button>
+    </li>
+  </ul>
+</ng-template>
+<ng-template #tplFooterUn>
+  <button nz-button nzType="primary" (click)="closeModel()">确定</button>
+</ng-template>
+
+
+
+<ng-template #tplTitle>
+  <span #span  style="font-size:20px;">换锅</span>
+</ng-template>
+<ng-template #tplContent>
+  <div>
+    <p style="font-size:18px;margin-bottom:10px;">换锅原因</p>
+    <div class="btndiv" button-trigger changeType="primary">
+      <button nz-button btntoggle nzBlock *ngFor="let item of reasons;let i=index" (click)="chosepan(item)">{{item.aaa103}}</button>
+    </div>
+    <p style="font-size:16px;margin:10px 0;">换后灭菌机</p>
+    <div class="btndiv" button-trigger changeType="primary">
+      <button nz-button btntoggle *ngFor="let item of freewashers;let i=index" [class.active]="item.check" (click)="chosetargetwasher(item)">{{item.dev_name}}</button>
+    </div>
+  </div>
+
+</ng-template>
+<ng-template #tplFooter>
+  <button nz-button nzType="primary" (click)="surechangepan()">确定</button>
+</ng-template>

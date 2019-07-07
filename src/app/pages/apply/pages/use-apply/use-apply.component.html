@@ -1,0 +1,77 @@
+<div class="content" (click)="hideul($event)">
+    <div class="header">
+                <!-- <div class="prodiv">    
+                      <span style="padding-right:10px;">科室</span>         
+                      <input type="text" nz-input #packageinput [(ngModel)]="palcevalue" placeholder="请输入科室" style="border:none;border-radius:none;" (keyup)="onKey(palcevalue,$event)">            
+                      <nz-list *ngIf="showkslist" [nzDataSource]="promptlist" nzBordered [nzRenderItem]="item" style="background-color:#E9E9E9;" class="liststyle">
+                                  <ng-template #item let-item>
+                                  <nz-list-item nz-row nzType="flex" nzJustify="space-around" nzAlign="middle" style="background-color:white;">
+                                      <div nz-col nzSpan="24" style="text-align:center;" (click)="signchoose(item)">{{item.de_deptname}}</div>            
+                                  </nz-list-item>
+                                  </ng-template>
+                      </nz-list>
+               </div>  -->
+               <span style="padding:0 10px;">科室</span>
+               <app-search-kslist  (ChosePack)="onChosePack($event)" [size]="'default'" [Width]="'260px'"></app-search-kslist>  
+               <div>
+                  <span style="padding:0 10px;">登记时间</span>             
+                  <nz-date-picker [nzFormat]="dateFormat" [(ngModel)]="formtimestart" [nzDisabledDate]="disabledDate"></nz-date-picker>
+                  <nz-date-picker style="padding-left:10px;" [nzFormat]="dateFormat" [(ngModel)]="formtimeend" [nzDisabledDate]="disabledDate"></nz-date-picker>
+              </div>  
+              <div style="margin:0 10px;">
+                  <span style="width:80px;margin-right:10px;">类型</span>
+                  <nz-select style="width: 100px;"  [(ngModel)]="type" >
+                      <nz-option nzLabel="全部" nzValue=""></nz-option>
+                       <nz-option nzLabel="未审核" nzValue="0"></nz-option>
+                       <nz-option nzLabel="已审核" nzValue="1"></nz-option>
+                       <nz-option nzLabel="作废" nzValue="9"></nz-option>
+                  </nz-select>
+              </div>
+              <div>
+                  <button nz-button nzType="primary" nzSize="small" (click)="search()">查询</button>
+              </div>
+    </div>
+    <div class="selflist">
+            <!-- <div class="listhead" nz-row nzType="flex" nzJustify="space-around" nzAlign="middle">           
+                    <div nz-col nzSpan="3" style="text-align:center;">包名称</div>
+                    <div nz-col nzSpan="3" style="text-align:center;">数量</div>
+            </div> !--> 
+            <nz-list [nzDataSource]="['1']" nzBordered [nzRenderItem]="itemheader">
+                <ng-template #itemheader let-itemheader>
+                <nz-list-item nz-row nzType="flex" nzJustify="space-around" nzAlign="middle">
+                    <div nz-col nzSpan="3" style="text-align:center;">申领科室</div>
+                    <div nz-col nzSpan="3" style="text-align:center;">包名称</div>
+                    <div nz-col nzSpan="3" style="text-align:center;">条码id</div>   
+                    <div nz-col nzSpan="2" style="text-align:center;">状态</div>  
+                    <div nz-col nzSpan="2" style="text-align:center;">申领人</div>        
+                    <div nz-col nzSpan="3" style="text-align:center;">申领时间</div>   
+                    <div nz-col nzSpan="2" style="text-align:center;">审核人</div>  
+                    <div nz-col nzSpan="3" style="text-align:center;">审核时间</div>    
+                    <div nz-col nzSpan="3" style="text-align:center;">操作</div>         
+                </nz-list-item>
+                </ng-template>
+            </nz-list> 
+            <nz-list class="listcontent" [nzDataSource]="dataList" nzBordered [nzRenderItem]="item">
+                    <ng-template #item let-item>
+                      <nz-list-item class="leftitem" nz-row nzType="flex" nzJustify="space-around" nzAlign="middle">
+                          <div nz-col nzSpan="3" style="text-align:center;">{{item.bsq_ksname}}</div>
+                          <div nz-col nzSpan="3" style="text-align:center;">{{item.bmc}}</div>
+                          <div nz-col nzSpan="3" style="text-align:center;">{{item.tmid}}</div>
+                          <div nz-col nzSpan="2" style="text-align:center;">{{item.bsq_status=='0'?'未审核':item.bsq_status=='1'?'已审核':'作废'}}</div>  
+                          <div nz-col nzSpan="2" style="text-align:center;">{{item.bsq_uname}}</div>        
+                          <div nz-col nzSpan="3" style="text-align:center;">{{item.bsq_dt}}</div>   
+                          <div nz-col nzSpan="2" style="text-align:center;">{{item.bsq_conf_uname}}</div>  
+                          <div nz-col nzSpan="3" style="text-align:center;">{{item.bsq_conf_dt}}</div>    
+                          <div nz-col nzSpan="3" style="text-align:center;">
+                              <button nz-button nzType="defalut" nzSize="small" (click)="chart(item)" [disabled]="item.bsq_status=='1'||item.bsq_status=='9'" style="margin-right:2px;">审核</button>  
+                              <button nz-button nzType="defalut" nzSize="small" (click)="waste(item)" [disabled]="item.bsq_status=='1'||item.bsq_status=='9'" style="margin-left:2px;">作废</button>
+                          </div>                         
+                      </nz-list-item>
+                    </ng-template>
+            </nz-list> 
+    </div> 
+</div>
+
+
+
+

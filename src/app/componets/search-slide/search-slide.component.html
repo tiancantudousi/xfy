@@ -1,0 +1,16 @@
+<div>
+  <span class="pack">包名称</span>
+  <nz-select style="width: 260px;" nzPlaceHolder="请选择包" [(ngModel)]="pack" nzAllowClear nzShowSearch="true" [nzServerSearch]="true" (nzOnSearch)="onSearch($event)" (ngModelChange)="emitEvent($event)">
+   <ng-container *ngFor="let o of packs">
+     <nz-option *ngIf="!isLoading" [nzValue]="o.bid" [nzLabel]="o.bmc"></nz-option>
+   </ng-container>
+   <nz-option nzCustomContent>
+     <nz-pagination (click)="stop($event)" [nzPageIndex]="1" [nzTotal]="total" [nzSize]="'small'" [nzPageSizeOptions]=[10,20,30] (nzPageIndexChange)="indexchange($event)"></nz-pagination>
+   </nz-option>
+   <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+     <i nz-icon type="loading" class="loading-icon"></i> Loading Data...
+   </nz-option>
+  </nz-select>
+
+  
+</div>

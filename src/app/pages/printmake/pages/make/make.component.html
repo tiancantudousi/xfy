@@ -1,0 +1,99 @@
+<div class="my-content">
+    <div class="head">
+      <span>打包配包人</span>
+      <input nz-input placeholder="输入工号" 
+        (keyup)="personKeyUp($event)" [(ngModel)]="prePerson">
+      <span>手动输入</span>
+      <input nz-input placeholder="请输入包条码" #packageinput 
+        (keyup)="buildpackage($event)" [(ngModel)]="afterPerson">
+    </div>
+    <div class="content-content">
+      <div class="left">
+        <div class="table-detail">
+          <div class="table-box" [ngClass]="{'table-no-data': packageList.length == 0}">
+          <table >
+            <thead>
+              <tr class="thead">
+                <th style="width: 75px"></th>
+                <th>包条码</th>
+                <th>包名称</th>
+                
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="packageList.length != 0">
+                <tr class="tbody" 
+                  *ngFor="let item of packageList" 
+                  (click)="selectPackage(item)"
+                  [ngClass]="{'tr-active': selectItem.hs_tmid == item.hs_tmid}">
+                  <td style="text-align:center">
+                    <img src="/assets/images/emergent-on.png" 
+                      (click)="clickEmergent(item, $event)"
+                      *ngIf="item.isjj == 1"/>
+                    <img src="/assets/images/emergent-off.png" 
+                      (click)="clickEmergent(item, $event)"
+                      *ngIf="item.isjj != 1"/>
+                  </td>
+                  <td>{{item.tmid}}</td>
+                  <td>{{item.bmc}}</td>
+                  <!-- <td>{{item.ksname}}</td> -->
+                  <!-- <td>{{item.clsl}}</td>
+                  <td>{{item.bzt}}</td> -->
+                 
+                  <td>
+                    <button nz-button  class="default1-button" (click)="cancle(item.tmid, $event)">撤销</button>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+          </div>
+          <!-- <div class="collect" *ngIf="packageList.length != 0">
+            <span>汇总</span>
+            <span class="num1">{{packageList.length}}</span>
+            <span class="num2">{{material}}</span>
+          </div> -->
+          <div class="no-data" *ngIf="packageList.length == 0">
+            <img src="../../../../../assets/images/recovery-package-no-data.png"/>
+            <span class="no-data-text">请扫描包条码</span>
+          </div>
+        </div>
+        <div class="loss">
+          <div class="loss-head">
+            <div *ngIf="selectItem">
+              <span class="name">{{selectItem.bmc}}</span>
+              <!-- <span class="tab">|</span> -->
+              <!-- <span class="num">材料数量 {{selectItem.clsl}}</span> -->
+              <!-- <button nz-button  class="primary-button" (click)="getlosstype(tplTitle,tplFooter)">损耗登记</button>
+              <ng-template #tplTitle>
+                  <span style="font-size:20px;">损耗登记</span>
+                </ng-template>
+                <ng-template #tplContent>
+                 
+                </ng-template>
+                <ng-template #tplFooter>
+                      <button nz-button nzType="primary" (click)="destroyTplModal()">确定({{recovercount}})</button>
+                </ng-template> -->
+            </div>
+          </div>
+          <div class="loss-body">
+            <div class="loss-content" *ngIf="materialArray.length !== 0">
+              <img src="../../../../../assets/images/item-recovery.png"/>
+              <div class="appliance-list">
+                <div class="row" *ngFor="let item of materialArray, let index1 = index">
+                  <span class="item" *ngFor="let childItem of item, let index2 = index">
+                    {{index1 * 5 + index2 + 1}}.{{childItem.clmc}}*{{childItem.clsl}}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="loss-content loss-no-data" *ngIf="materialArray.length === 0">
+              <img src="../../../../../assets/images/recovery-loss-no-data.png"/>
+              <span class="no-data-text">包内容</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+  

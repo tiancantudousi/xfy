@@ -1,0 +1,62 @@
+<div class="content">
+   <div class="left" id='father' #father>
+        <input #packageinput style="margin:10px;width:160px;" nz-input placeholder="输入科室名称" [(ngModel)]="ksname" (keyup)="kskeyup($event)">
+        <nz-list button-trigger changeType="selfactive" [nzDataSource]="kslist" nzBordered [nzRenderItem]="item">
+                <ng-template #item let-item>
+                    <nz-list-item class="leftitem" btntoggle nz-row nzType="flex" nzJustify="space-around" nzAlign="middle" >
+                        <div nz-col nzSpan="24" style="text-align:center;" (click)="getsingle(item)"  #itemthis>{{item.dname}}</div> 
+                        <!-- <span *ngIf="deletespan"  #itemthis>
+                                {{dothis(item,itemthis)}}   
+                        </span>    -->
+                            
+                    </nz-list-item>
+                </ng-template>
+         </nz-list>
+   </div>
+   <div class="right">
+       <!-- <div class="paper">
+           <div>申领单</div>
+           <div>
+             <span class="time">{{kslist[0].dname}}</span>  
+                <span>{{kslist[0].dname}}</span> 
+            </div>
+       </div> -->
+
+       <div class="tmid">
+            <span class="textpackagenum">包条码</span>
+            <input nz-input placeholder="输入包条码或扫码" #btminput  [(ngModel)]="packageid" (keyup)="packageKeyup($event)">
+
+           <span class="textpackagenum">发放人</span>
+                <input nz-input placeholder="输入工号或扫码"   #ffrinput 
+                  (keyup)="personKeyUp($event)" [(ngModel)]="afterPerson">
+
+       </div>
+             
+    
+     
+       <div class="selflist">
+                <div class="listhead" nz-row nzType="flex" nzJustify="space-around" nzAlign="middle"> 
+
+                        <div nz-col nzSpan="3" style="text-align:center;">包名称</div>
+                        <div nz-col nzSpan="3" style="text-align:center;">申领(数)</div>
+                        <div nz-col nzSpan="3" style="text-align:center;">已发(数)</div>
+                        <div nz-col nzSpan="2" style="text-align:center;">是否加急</div>    
+                </div>  
+                <nz-list class="listcontent" button-trigger changeType="selfactive" [nzDataSource]="packageList" nzBordered [nzRenderItem]="item1">
+                        <ng-template #item1 let-item1>
+                        <nz-list-item class="leftitem" btntoggle nz-row nzType="flex" nzJustify="space-around" nzAlign="middle">
+                           
+                            <div nz-col nzSpan="3" style="text-align:center;">{{item1.bmc}}</div>
+                            <div nz-col nzSpan="3" style="text-align:center;">{{item1.b_num}}</div>
+                            <div nz-col nzSpan="3" style="text-align:center;">{{item1.ff_num}}</div>
+                            <div nz-col nzSpan="2" style="text-align:center;">{{item1.isjj==1?'是':'否'}}</div>             
+                        </nz-list-item>
+                        </ng-template>
+                </nz-list>
+        </div> 
+          
+    
+    
+      
+   </div>
+</div>

@@ -1,0 +1,59 @@
+<div class="login" nzType="flex" nzJustify="center" nz-row nzAlign="middle">
+  <div class="loginimg">
+    <h2 class="text">消毒供应中心质量追溯系统</h2>
+    <div class="loginform" (click)="hidelist()">   
+      <form nz-form [formGroup]="validateForm" class="login-form">
+        <!-- <div nz-row class="formheader" nzType="flex" nzJustify="space-between" nzAlign="middle">
+            <h2 nz-col nzSpan="8">密码登录</h2>
+            <h2 class="fresh">
+              <span>扫码</span>
+              <span>登录</span> 
+            </h2>
+        </div> -->
+        <nz-form-item>
+            <nz-form-control>
+              <nz-input-group nzPrefixIcon="anticon anticon-calculator">
+                <!-- <input id="palce" type="text" nz-input formControlName="palce" [(ngModel)]="palcevalue" placeholder="请输入科室" style="border:none;border-radius:none;" (keyup)="onKey()"> -->
+                <app-search-kslist  (ChosePack)="onChosePack($event)" [size]="large" [Width]="'340px'"></app-search-kslist>
+              </nz-input-group>
+              <nz-form-explain *ngIf="showpalcesign" style="color:red">请输入科室!</nz-form-explain>
+             <nz-list *ngIf="signshow" [nzDataSource]="promptlist" nzBordered
+             [nzRenderItem]="item" style="background-color:#E9E9E9;" class="liststyle">
+             <ng-template #item let-item>
+               <nz-list-item nz-row nzType="flex" nzJustify="space-around" nzAlign="middle" style="background-color:white;">
+                   <div nz-col nzSpan="24" style="text-align:center;" (click)="signchoose(item)">{{item.de_deptname}}</div>            
+               </nz-list-item>
+             </ng-template>
+             </nz-list>
+            </nz-form-control>
+        </nz-form-item>
+         
+        
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group nzPrefixIcon="anticon anticon-user">
+              <input id="username" #loginName type="text" nz-input formControlName="userName" placeholder="工号" style="border:none;border-radius:none;" (keyup)="hiderror($event)">
+            </nz-input-group>
+            <nz-form-explain *ngIf="validateForm.get('userName').dirty && validateForm.get('userName').errors">请输入工号!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group nzPrefixIcon="anticon anticon-lock">
+              <input id="password" type="password" nz-input formControlName="password" placeholder="密码" style="border:none;border-radius:none;" (keyup)="hiderror()">
+            </nz-input-group>
+            <nz-form-explain *ngIf="validateForm.get('password').dirty && validateForm.get('password').errors">请输入密码!</nz-form-explain>
+            <nz-form-explain *ngIf="passworderror" style="color:red;">账号或密码出错!</nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <button nz-button id="testlogin" (click)="startLogin()" class="login-form-button" nzType="primary" style="color:white;">登录</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+</div>
+
+
+</div>

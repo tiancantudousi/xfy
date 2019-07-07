@@ -1,0 +1,27 @@
+<div class="losscord">
+    <p style="font-size:18px;margin-bottom:10px;">{{lossdata.Tmxx.bmc}} | </p> 
+   <p style="border-bottom:1px solid #C9C9C9;">
+   <p style="font-size:16px;margin-top:10px;">损耗材料</p>
+   <ul class="lossul" style="max-height:200px;overflow-y:scroll;">
+     <li *ngFor="let value of listcontent;let i=index" style="font-size:16px;">
+        <button nz-button nzType="default" [class.active]="value.check" (click)="checkmaterial(value,i)">{{i+1}}.{{value.clmc}}</button>
+     </li> 
+     <div style="content:'';clear: both;"></div> 
+   </ul>
+   <p style="font-size:16px;margin:10px 0;">损耗类型</p> 
+    <ul class="lossul" style="max-height:200px;overflow-y:scroll;">
+      <!-- <li *ngFor="let item of this.lossdata.AA10List;let i=index" style="font-size:16px;">
+         <button nz-button nzType="default" [class.active]="item.check" (click)="btntypeclick(item)">{{item.aaa103}}</button>
+      </li> -->
+      <li *ngFor="let item of this.lossdata.AA10List;let i=index" style="font-size:16px;">
+        <button nz-button nzType="default" [class.active]="item.check" (click)="btntypeclick(item)">{{item.aaa103}}</button>
+     </li>
+      <div style="content:'';clear: both;"></div>
+    </ul>
+    <p style="font-size:16px;margin:10px 0;">物品数量</p>
+    <div class="changecount">
+         <div class="countbutton" (click)="reduce()" [class.clickcolor]="reducecolor"> <i class="anticon anticon-minus"></i></div>
+         <div>{{count}}</div>
+         <div class="countbutton" (click)="add()" [class.clickcolor]="addcolor"><i class="anticon anticon-plus"></i></div>  
+    </div>
+</div>

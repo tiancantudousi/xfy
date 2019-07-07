@@ -1,0 +1,71 @@
+<div class="content">
+     <div class="top">
+          <!-- <div class="header">
+         
+          </div> -->
+          <div class="center">
+              <div class="left">
+                  <div>包类型</div>
+                  <input nz-input placeholder="搜索" [(ngModel)]="selectedValue" (keyup)="searchPackage($event)">
+                  <div class="slide" *ngIf="showtopul">
+                    <p><span>包id</span><span>包名称</span></p>
+                    <ul class="ultop" >                      
+                         <li *ngFor="let item of slidelist" (click)="choosepackage(item,$event)"><span>{{item.bid}}</span><span>{{item.bmc}}</span></li>
+                   </ul>
+                  </div>
+                  
+                  <!-- <div class="selectPackage" *ngIf="selectshow">{{tempSelectPackage.bmc}}</div> -->
+                  <nz-tree *ngIf="shownodes" [(ngModel)]="nodes"
+                  [nzShowLine]="true"
+                  [nzDefaultExpandedKeys]="expandKeys"
+                  (nzExpandChange)="mouseAction('expand',$event)"
+                  (nzDblClick)="mouseAction('dblclick',$event)"
+                  (nzContextMenu)="mouseAction('contextmenu', $event)"
+                  (nzClick)="mouseAction('click',$event)">
+                  </nz-tree>
+              </div>
+              <div class="right">
+                   <div class="main">
+                        <div class="listheader" nz-row nzType="flex" nzJustify="space-around" nzAlign="middle">
+                                <div nz-col nzSpan="3" style="text-align:center;"><label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()" [nzIndeterminate]="indeterminate"></label></div> 
+                                <div nz-col nzSpan="6" style="text-align:center;">包名称</div>
+                                <div nz-col nzSpan="6" style="text-align:center;">打印数量</div>
+                                <div nz-col nzSpan="6" style="text-align:center;">操作</div>      
+                        </div>          
+                        <nz-list class="listcontent" *ngIf="printlist.length!=0"  [nzDataSource]="printlist" nzBordered
+                            [nzRenderItem]="item" style="background-color:#E9E9E9;">
+                            <ng-template #item let-item>
+                                <nz-list-item nz-row nzType="flex" nzJustify="space-around" nzAlign="middle" style="background-color:white;">
+                                    <div nz-col nzSpan="3" style="text-align:center;"><label nz-checkbox [(ngModel)]="item.checked" (ngModelChange)="updateSingleChecked()"></label></div>   
+                                    <div nz-col nzSpan="6" style="text-align:center;">{{item.title}}</div>
+                                    <div nz-col nzSpan="6" style="text-align:center;"> <input style="width:60px;text-align:right;" nz-input placeholder="搜索" (keyup)="numchange()" [(ngModel)]="item.num"></div> 
+                                    <div nz-col nzSpan="6" style="text-align:center;">
+                                        <button nz-button nzType="defalut" nzSize="'small'" (click)="delete(item)">删除</button>
+                                        <button nz-button nzType="defalut" nzSize="'small'"  (click)="printall(item)">打印</button>
+                                    </div>              
+                                </nz-list-item>
+                            </ng-template>                             
+                        </nz-list>
+                        <div class="listcontent nodata" *ngIf="printlist.length==0">
+                            <img src="/assets/images/recovery-package-no-data.png" alt="">
+                            <span>打印内容</span>
+                        </div>
+                        <div nz-row>
+                                <div nz-col nzSpan="3" style="text-align:center;">汇总</div>   
+                                <div nz-col nzSpan="3" style="text-align:center;">打印总数:{{totalprint}}</div>
+                        </div>
+                   </div>
+                   <div nz-row class="help">
+                          <app-printmake-help #childone></app-printmake-help>
+                   </div>
+              </div>
+          </div>
+     </div>
+     <div class="bottom">
+            <button nz-button [nzType]="printallbtn" (click)="printall(0)" class="changebtn ant-btn-primary">打印</button>
+     </div>
+</div>
+
+
+
+

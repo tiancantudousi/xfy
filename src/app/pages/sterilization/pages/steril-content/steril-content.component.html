@@ -1,0 +1,127 @@
+<div class="washcontent">
+  <div *ngIf="isLoading" class="loading">
+      <nz-spin></nz-spin>
+  </div>
+    
+    <div class="left">
+        <nz-list *ngIf="washerslist.length!=0" [nzDataSource]="washerslist" nzBordered [nzRenderItem]="item" class="liststyle">
+        <ng-template #item let-item>
+          <nz-list-item nz-row nzType="flex" nzAlign="middle" [class.changecolor]="item.active" class="washlist" (click)="getwasher(item)">
+              <img src="./../../../../../assets/images/device_qxj.png" alt="">
+              <div class="outdiv" style="display:flex;flex-direction: column;-webkit-flex: 1;">
+                 <p style="color:#293660;font-size:14px;text-align:left;padding-left:8px;">{{item.dev_name}}</p>
+                 <div style="display:flex;">
+                        <div style="text-align:center; width:65%;" class="rightdiv">
+                            <p style="font-size:12px;color:#293660;text-align:left;padding-left:8px;">日/总锅次:{{item.d_gc}}/{{item.t_gc}}</p>
+                       </div>  
+                       <div class="circle"> <span [ngClass]="{prepare:item.state=='1',blank:item.state=='0',tobetest:item.state=='3',washing:item.state=='2'}">{{item.state_name}}</span> </div>               
+                 </div>
+                
+              </div>
+              <!-- <img src="./../../../../../assets/images/device_mjj.png" alt="">
+              <div style="text-align:center;" class="rightdiv">
+                   <p style="color:#293660;font-size:14px;text-align:left;padding-left:8px;">{{item.dev_name}}</p>
+                   <p style="font-size:12px;color:#666666;text-align:left;padding-left:8px;">日/总锅次:{{item.d_gc}}/{{item.t_gc}}</p>
+              </div> 
+              <div class="circle"> <span [ngClass]="{prepare:item.state=='1',blank:item.state=='0',tobetest:item.state=='3',washing:item.state=='2'}">{{item.state_name}}</span> </div>             -->
+          </nz-list-item>
+        </ng-template>
+        </nz-list>
+    </div>
+    <div class="right" *ngIf="tempactiveitem" (click)="hideul()">
+        <div class="head">
+            <div>
+                <span>灭菌时间</span>
+                <nz-date-picker [(ngModel)]="date" nzShowTime style="margin-left:20px;"></nz-date-picker>
+                <div style="position:relative;" *ngIf="washerstate!='3'">
+                  <span class="textpackagenum">包条码</span>
+                  <input nz-input placeholder="输入包条码或扫码" [(ngModel)]="packagename" #packageinput (keyup)="packageidkeyup($event)">
+                  <span class="textpackagenum">灭菌包基数</span>
+                  <input nz-input placeholder="数量" [(ngModel)]="baseNumber" (keyup)="postbase($event)">
+                  <span>灭菌人</span>
+                  <input nz-input placeholder="输入工号或扫码"  #mjrinput
+                    (keyup)="personKeyUp($event)" [(ngModel)]="afterPerson">
+                </div>  
+                <div *ngIf="tempactiveitem.type=='1'" style="margin-left:10px;">BD灭菌</div>
+                <!-- <div *ngIf="washerstate==2" style="margin-left:10px;">倒计时:{{lefttime}}</div>               -->
+            </div>
+            <div>
+                <span style="width:60px;">灭菌程序</span>
+                <ul class="ulbottom" *ngIf="washtype.length!=0">
+                    <li *ngFor="let item of washtype" [class.active]="item.active" (click)="choosetype(item)">
+                        <p style="text-align:center;">{{item.aaa103}}</p>
+                        <p style="text-align:center;">({{item.aaa102}})分</p>
+                    </li>
+                </ul>
+            </div>
+           
+        </div>
+        <div class="content">
+              <div class="listheader" nz-row nzType="flex" nzJustify="space-around" nzAlign="middle">
+                      <div nz-col nzSpan="6" *ngFor="let value of listheader;let i=index" style="text-align:center;">{{value}}</div>       
+              </div>          
+              <nz-list class="listcontent" *ngIf="washerdata.length!=0"  [nzDataSource]="washerdata" nzBordered [nzLoading]="loading"
+                  [nzRenderItem]="item" style="background-color:#E9E9E9;">
+                  <ng-template #item let-item>
+                      <nz-list-item nz-row nzType="flex" nzJustify="space-around" nzAlign="middle" style="background-color:white;">
+                          <div nz-col nzSpan="6" style="text-align:center;">{{item.tmid}}</div>   
+                          <div nz-col nzSpan="6" style="text-align:center;">{{item.bmc}}</div>
+                          <!-- <div nz-col nzSpan="6" style="text-align:center;">{{item.b_num}}</div>  -->
+                          <div nz-col nzSpan="6" style="text-align:center;"><button nz-button nzType="defalut" (click)="cansle(item)" *ngIf="washerstate!='3'">撤销</button></div>              
+                      </nz-list-item>
+                  </ng-template>                             
+              </nz-list>
+              <div style="margin-left:50px;">包总数: <span>{{washerdata.length}}</span></div>
+              <div *ngIf="washerdata.length==0" class="nopandata">
+                  <img src="/assets/images/recovery-plate-no-data.png" alt="">
+              </div>
+              <!-- <div class="countall" nz-row nzType="flex" nzAlign="middle">
+                  <span nz-col nzSpan="6" style="text-align:center;">汇总</span>
+                  <span nz-col nzSpan="6" nzOffset="6" style="text-align:center;">{{totalpackage}}</span>
+              </div> -->
+        </div>
+        <div class="bottom" *ngIf="(washerstate=='0'||washerstate=='1')&&washerstate!='3'">
+              <button nz-button [nzType]="pan" (click)="changepan(tplTitle,tplFooter,tplContent)">换锅</button>
+              <div style="width:20px;"></div>
+              <button nz-button [nzType]="buttonwash" (click)="startwash()" [disabled]="disable">开始灭菌</button>
+        </div>
+        <div class="bottom" *ngIf="washerstate=='2'&&washerstate!='3'">
+              <button nz-button [nzType]="pan" (click)="changepan(tplTitle,tplFooter,tplContent)">换锅</button>
+              <button nz-button [nzType]="changebtn" (click)="change()" class="changebtn">修改</button>
+              <button nz-button [nzType]="buttonwash" (click)="cancellation()">作废</button>
+        </div>
+    </div>
+    <!-- <div class="ant-modal-content numberwarn" *ngIf="shownumberwarn">
+          <div style="color:red;">请填写基数包数量!</div>
+          <button nz-button [nzType]="buttonwash" (click)="shownumberwarn=false">确定</button>
+    </div> -->
+    
+    <div *ngIf="!tempactiveitem" class="nodata">
+        <img src="/assets/images/washcontent.png" alt="">
+        <span>清洗内容</span>
+    </div>
+</div>
+
+
+<ng-template #tplTitle>
+      <span style="font-size:20px;">换锅</span>
+</ng-template>
+<ng-template #tplContent>
+      <div >
+          <p style="font-size:18px;margin-bottom:10px;">换锅原因</p>
+          <div class="btndiv"  button-trigger changeType="primary">
+              <button nz-button btntoggle nzBlock *ngFor="let item of reasons;let i=index" (click)="chosepan(item)">{{item.aaa103}}</button>
+          </div>
+          <p style="font-size:16px;margin:10px 0;">换后清洗机</p>
+          <div class="btndiv"  button-trigger changeType="primary">
+               <button nz-button btntoggle *ngFor="let item of freewashers;let i=index" [class.active]="item.check" (click)="chosetargetwasher(item)">{{item.dev_name}}</button>
+          </div>       
+      </div>
+  
+</ng-template>
+<ng-template #tplFooter>
+  <button nz-button nzType="primary" (click)="surechangepan()">确定</button>
+</ng-template>
+
+
+

@@ -1,0 +1,116 @@
+<div class="content">
+    <div class="top">
+         <div class="header">
+             <ul>
+               <li> 
+                   <span>清洗机</span>
+                   <nz-select style="width: 200px;" [(ngModel)]="washer" aria-placeholder="请选择">
+                        <nz-option nzLabel="请选择" nzValue=""></nz-option>
+                       <nz-option *ngFor="let option of washers" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+                   </nz-select>
+               </li>
+               <li style="width:320px;">
+                  <app-search-slide (ChosePack)="onChosePack($event)"></app-search-slide>  
+                   <!-- <span>包名称</span>
+                   <input nz-input placeholder="输入包条码或扫码" #packageinput [(ngModel)]="packagename" (keyup)="packageidkeyup($event)">
+                   <ul class="ultopd" *ngIf="showtopul">
+                       <li *ngFor="let item of slidelist" (click)="choosepackage(item,$event)">{{item.bmc}}</li>
+                   </ul> -->
+               </li>
+               <li>
+                   <span>灭菌方式</span>
+                   <nz-select style="width: 200px;" [(ngModel)]="sterilizerType" [nzSize]="size" aria-placeholder="检查类">
+                        <nz-option nzLabel="请选择" nzValue=""></nz-option>
+                       <nz-option *ngFor="let option of sterilizerTypes" [nzLabel]="option.aaa103" [nzValue]="option.aaa102"></nz-option>
+                   </nz-select>
+               </li>
+               <li>
+                   <span>打包位置</span>
+                   <nz-select style="width: 200px;" [(ngModel)]="packageplace" [nzSize]="size" aria-placeholder="请选择">
+                        <nz-option nzLabel="请选择" nzValue=""></nz-option>
+                       <nz-option *ngFor="let option of packageplaces" [nzLabel]="option.aaa103" [nzValue]="option.aaa102"></nz-option>
+                   </nz-select>
+               </li>
+               <li class="chosetime">
+                   <span >清洗时间</span>             
+                   <nz-date-picker [nzFormat]="dateFormat" [(ngModel)]="formtimestart" [nzDisabledDate]="disabledDate" nzShowTime></nz-date-picker>
+                   <nz-date-picker style="margin-left:10px;" [nzFormat]="dateFormat" [(ngModel)]="formtimeend" [nzDisabledDate]="disabledDate" nzShowTime></nz-date-picker>
+               </li>
+               <li class="search">
+                  <button nz-button nzType="primary" (click)="confectPackageSearch()" class="changebtn">查询</button>
+               </li>
+  
+               <li style="width:160px;">
+                  <span>配包人</span>
+                  <input style="width:100px;" nz-input placeholder="输入工号" #pbrinput
+
+                    (keyup)="personKeyUp($event)" [(ngModel)]="prePerson">
+               </li>
+               <li style="width:160px;">
+                <span>篮筐条码</span>
+                <input style="width:100px;" nz-input placeholder="输入清洗盘条码" #qxptminput
+                  (keyup)="confectPackageSearchpxp($event)" [(ngModel)]="qxptm">
+               </li>
+             
+             </ul>
+         </div>
+         <div class="center">
+             <div class="right">
+                  <div class="main">
+                       <div class="listheader" nz-row nzType="flex" nzJustify="space-around" nzAlign="middle">
+                               <div nz-col nzSpan="2" style="text-align:center;"><label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()" [nzIndeterminate]="indeterminate"></label></div> 
+                               <div nz-col nzSpan="3" style="text-align:center;">清洗机</div>
+                               <div nz-col nzSpan="3" style="text-align:center;">锅次</div>
+                               <div nz-col nzSpan="3" style="text-align:center;">包名称</div>
+                               <div nz-col nzSpan="3" style="text-align:center;">清洗盘</div>
+                               <div nz-col nzSpan="3" style="text-align:center;">未配包</div>
+                               <div nz-col nzSpan="3" style="text-align:center;">配包</div>
+                               <div nz-col nzSpan="4" style="text-align:center;">操作</div>      
+                       </div>          
+                       <nz-list class="listcontent" *ngIf="washprintlist.length!=0"  [nzDataSource]="washprintlist" nzBordered
+                           [nzRenderItem]="item" style="background-color:#E9E9E9;">
+                           <ng-template #item let-item>
+                               <nz-list-item nz-row [ngClass]="{'itemase':item.sycs>=item.ksycs&&item.db_location=='ycxwpdy','itemas':!(item.sycs>=item.ksycs&&item.db_location=='ycxwpdy')}" nzType="flex" nzJustify="space-around" nzAlign="middle">
+                                   <div nz-col nzSpan="2" style="text-align:center;"><label nz-checkbox [(ngModel)]="item.checked" [disabled]="item.sycs>=item.ksycs&&item.db_location=='ycxwpdy'"  (ngModelChange)="updateSingleChecked()"></label></div>   
+                                   <div nz-col nzSpan="3" style="text-align:center;">{{item.qx_dev_name}}</div>
+                                   <div nz-col nzSpan="3" style="text-align:center;">{{item.qx_t_gc}}</div>
+                                   <div nz-col nzSpan="3" style="text-align:center;">{{item.bmc}}</div>
+                                   <div nz-col nzSpan="3" style="text-align:center;">{{item.basket_name}}</div>
+                                   <div nz-col nzSpan="3" style="text-align:center;">{{item.b_num}}</div>
+                                   <div nz-col nzSpan="3" style="text-align:center;"> 
+                                     <input style="text-align: right; width:60px;" nz-input placeholder="数量" (keyup)="numchange(item)" [class.warnings]="item.warning" [(ngModel)]="item.temp_num"> 
+                                     <i style="color:#FA5317;" class="anticon anticon-exclamation-circle warning" *ngIf="item.warning"></i>
+                                   </div>
+                                   <div nz-col nzSpan="4" style="text-align:center;">
+                                        <button nz-button nzType="defalut" (click)="delete(item)">删除</button>
+                                       <button nz-button *ngIf="!(item.sycs>=item.ksycs&&item.db_location=='ycxwpdy')" nzType="defalut" (click)="confectPackage(item,null)">配包</button>
+                                   </div>              
+                               </nz-list-item>
+                           </ng-template>                             
+                       </nz-list>
+                       <div class="listcontent nodata" *ngIf="washprintlist.length==0">
+                             <img src="/assets/images/recovery-package-no-data.png" alt="">
+                             <span>配包内容</span>
+                       </div>
+                       <!-- <div nz-row>
+                               <div nz-col nzSpan="3" style="text-align:center;">汇总</div>   
+                               <div nz-col nzSpan="6" style="text-align:center;" nzOffset="6">{{totalprint}}</div>
+                       </div> -->
+                  </div>
+                  <div nz-row class="help">
+                    <app-printmake-help #child></app-printmake-help>
+                    <!-- <button nz-button (click)="child.sterilizerchange()" class="changebtn">打印</button> -->
+                  </div>
+             </div>
+         </div>
+    </div>
+    <div class="bottom">
+           <!-- <button nz-button btntoggle  (click)="clearall()" class="changebtn">清空</button> -->
+           <button nz-button nzType="primary" (click)="confectPackage(null,1)" class="changebtn">配包</button>     
+    </div>
+  </div>
+  
+  
+  
+  
+  

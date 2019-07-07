@@ -1,0 +1,229 @@
+<div class="content">
+        <div id='bdtts_div_id' style="display: none;"></div>
+    <div class="top">
+        <div class="header">
+            <ul>
+                <li class="chosetime">
+                    <span>发生时间</span>
+                    <nz-date-picker [nzFormat]="dateFormat" [(ngModel)]="formtimestart" [nzDisabledDate]="disabledDate"></nz-date-picker>
+                    <nz-date-picker style="margin-left:10px;" [nzFormat]="dateFormat" [(ngModel)]="formtimeend" [nzDisabledDate]="disabledDate"></nz-date-picker>
+                </li>
+                <li>
+                    <span>外来分类</span>
+                    <nz-select style="width: 200px;" nzShowSearch nzAllowClear [(ngModel)]="wlbvalue">
+                        <nz-option nzLabel="请选择" nzValue=""></nz-option>
+                        <nz-option *ngFor="let option of wlbllx" [nzLabel]="option.aaa103" [nzValue]="option.aaa102"></nz-option>
+                    </nz-select>
+                </li>
+                <li>
+                    <span>发货商</span>
+                    <nz-select style="width: 200px;" nzShowSearch nzAllowClear [(ngModel)]="fhsid">
+                        <nz-option nzLabel="请选择" nzValue=""></nz-option>
+                        <nz-option *ngFor="let option of fhs" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+                    </nz-select>
+                </li>
+                <li>
+                    <span>单据状态</span>
+                    <nz-select style="width: 200px;" nzShowSearch nzAllowClear [(ngModel)]="djztvalue">
+                        <nz-option nzLabel="请选择" nzValue=""></nz-option>
+                        <nz-option *ngFor="let option of djzt" [nzLabel]="option.aaa103" [nzValue]="option.aaa102"></nz-option>
+                    </nz-select>
+                </li>
+                <li class="search" button-trigger changeType="primary">
+                    <button nz-button btntoggle nzType="primary" (click)="Search()" class="changebtn ant-btn-primary">查询</button>
+                    <button nz-button btntoggle (click)="add(tplTitle, tplContent, tplFooter)" class="changebtn">新增</button>
+                </li>
+            </ul>
+        </div>
+        <div class="center">
+            <div class="right">
+                <div class="main">
+                    <div class="listheader" nz-row nzType="flex" nzJustify="space-around" style="overflow-y:scroll;" nzAlign="middle">
+                        <div nz-col nzSpan="2" style="text-align:center;">发货商</div>
+                        <div nz-col nzSpan="2" style="text-align:center;">送货人</div>
+                        <div nz-col nzSpan="2" style="text-align:center;">复核人</div>
+                        <div nz-col nzSpan="2" style="text-align:center;">接收人</div>
+                        <div nz-col nzSpan="2" style="text-align:center;">外来类型</div>
+                        <div nz-col nzSpan="2" style="text-align:center;">单据状态</div>
+                        <div nz-col nzSpan="5" style="text-align:center;">操作</div>
+                    </div>
+                    <nz-list class="listcontent" *ngIf="wlbList.length!=0" [nzDataSource]="wlbList" nzBordered [nzRenderItem]="item" style="background-color:#E9E9E9;">
+                        <ng-template #item let-item>
+                            <nz-list-item (click)="addgh(tplTitlegh, tplContentgh, tplFootergh,item)" nz-row nzType="flex" nzJustify="space-around" nzAlign="middle"
+                                style="background-color:white;">
+                                <div nz-col nzSpan="2" style="text-align:center;">{{item.fhs_name}}</div>
+                                <div nz-col nzSpan="2" style="text-align:center;">{{item.sh_uname}}</div>
+                                <div nz-col nzSpan="2" style="text-align:center;">{{item.fh_uname}}</div>
+                                <div nz-col nzSpan="2" style="text-align:center;">{{item.jj_uname}}</div>
+                                <div nz-col nzSpan="2" style="text-align:center;">{{item.wlbtypename}}</div>
+                                <div nz-col nzSpan="2" style="text-align:center;">{{item.status_name}}</div>
+                                <div nz-col nzSpan="5" style="text-align:center;">
+                                  <button nz-button nzType="defalut" nzSize="'small'" [disabled]="item.is_dy=='1'"  (click)="printwlb($event,item,'iswlbdyf')">打印</button>
+                                  <button nz-button nzType="defalut" nzSize="'small'"   (click)="printwlb($event,item,'iswlbdyr')">重新打印</button>
+                              </div> 
+                            </nz-list-item>
+                        </ng-template>
+                    </nz-list>
+                  
+                </div>
+                <div nz-row class="help">
+                  <app-printmake-help #childone></app-printmake-help>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<ng-template #tplTitle>
+    <span style="font-size:20px;">添加</span>
+</ng-template>
+<ng-template #tplContent>
+    <div class="modelcontent">
+        <ul>
+            <li style="position:relative;">
+                <span style="color:red;width:6px;line-height:32px;">*</span>
+                <app-search-slide #packslide (ChosePack)="onChosePack2($event)"></app-search-slide>
+            </li>
+            <li>
+                <span>发货商</span>
+                <nz-select style="width: 200px;" nzShowSearch nzAllowClear [(ngModel)]="fhs_add">
+                    <nz-option nzLabel="请选择" nzValue=""></nz-option>
+                    <nz-option *ngFor="let option of fhs" [nzLabel]="option.name" [nzValue]="option"></nz-option>
+                </nz-select>
+            </li>
+            <li>
+                <span>外来分类</span>
+                <nz-select style="width: 200px;" nzShowSearch nzAllowClear [(ngModel)]="wlbfladd">
+                    <nz-option nzLabel="请选择" nzValue=""></nz-option>
+                    <nz-option *ngFor="let option of wlbllx" [nzLabel]="option.aaa103" [nzValue]="option.aaa102"></nz-option>
+                </nz-select>
+            </li>
+            <li>
+                <span class="textpackagenum">联系方式</span>
+                <input style="width: 200px;" nz-input [(ngModel)]="lxfs">
+            </li>
+            <li>
+                <span class="textpackagenum">送货人</span>
+                <input style="width: 200px;" nz-input [(ngModel)]="shradd">
+            </li>
+            <li>
+                <span>接收人</span>
+                <nz-select style="width: 200px;" placeholder="请输入" [(ngModel)]="jsuser" [nzSize]="size" nzShowSearch>
+                    <nz-option nzLabel="编号     名称" nzValue=""></nz-option>
+                    <nz-option *ngFor="let option of makePackagePersons" [nzLabel]="option.showname" [nzValue]="option"></nz-option>
+                </nz-select>
+            </li>
+            <li>
+                <span>复核人</span>
+                <nz-select style="width: 200px;" placeholder="请输入" [(ngModel)]="fhuser" [nzSize]="size" nzShowSearch>
+                    <nz-option nzLabel="编号     名称" nzValue=""></nz-option>
+                    <nz-option *ngFor="let option of makePackagePersons" [nzLabel]="option.showname" [nzValue]="option"></nz-option>
+                </nz-select>
+            </li>
+            <li>
+                <span class="textpackagenum">备注</span>
+                <input style="width: 200px;" nz-input placeholder="备注" [(ngModel)]="detail">
+            </li>
+            <li>
+                <span class="textpackagenum">添加外来包</span>
+            </li>
+            <li style="height:100px;overflow-y: scroll;">
+                <nz-list class="listcontenta" [nzDataSource]="wlbaddList" nzBordered [nzRenderItem]="item">
+                    <ng-template #item let-item>
+                        <nz-list-item nz-row nzType="flex" nzJustify="space-around" nzAlign="middle" style="background-color:white;">
+                            <div (click)="addbxx(tplTitlebxx, tplContentbxx, tplFooterbxx,item)" nz-col nzSpan="8" style="text-align:center;">包名称:{{item.bmc}}</div>
+                            <div (click)="addbxx(tplTitlebxx, tplContentbxx, tplFooterbxx,item)" nz-col nzSpan="8" style="text-align:center;">包数量:{{item.num}}</div>
+                            <div (click)="addbxx(tplTitlebxx, tplContentbxx, tplFooterbxx,item)" nz-col nzSpan="8" style="text-align:center;">材料数量:{{item.dj_clsl}}</div>
+                        </nz-list-item>
+                    </ng-template>
+                </nz-list>
+            </li>
+        </ul>
+
+    </div>
+
+
+</ng-template>
+<ng-template #tplFooter>
+    <button nz-button nzType="primary" (click)="sureaddmessage()">保存</button>
+</ng-template>
+
+
+<ng-template #tplTitlebxx>
+    <span style="font-size:20px;">修改包信息</span>
+</ng-template>
+<ng-template #tplContentbxx>
+    <div class="modelcontent">
+        <ul>
+            <li>
+                <span class="textpackagenum">包数量</span>
+                <input style="width: 200px;" nz-input [(ngModel)]="bnum">
+            </li>
+            <li>
+                <span class="textpackagenum">材料数量</span>
+                <input style="width: 200px;" nz-input [(ngModel)]="clnum">
+            </li>
+        </ul>
+    </div>
+</ng-template>
+<ng-template #tplFooterbxx>
+    <button nz-button nzType="primary" (click)="sureaddmessageadd()">保存</button>
+</ng-template>
+
+
+
+
+
+<ng-template #tplTitlegh>
+    <span style="font-size:20px;">归还</span>
+</ng-template>
+<ng-template #tplContentgh>
+    <li>
+        <span class="textpackagenum">送货人:{{ghitem.sh_uname}}</span>
+    </li>
+    <li>
+        <span class="textpackagenum">复核人:{{ghitem.fh_uname}}</span>
+    </li>
+    <li>
+        <span class="textpackagenum">接收人:{{ghitem.jj_uname}}</span>
+    </li>
+    <li>
+        <span class="textpackagenum">发货商:{{ghitem.fhs_name}}</span>
+    </li>
+    <li style="height:200px;overflow-y: scroll;">
+        <nz-list class="listcontent" *ngIf="wlbDtlList.length!=0" [nzDataSource]="wlbDtlList" nzBordered [nzRenderItem]="item" style="background-color:#E9E9E9;">
+            <ng-template #item let-item>
+                <nz-list-item (click)="addghzf(tplTitleghzf, tplContentghzf, tplFooterghzf,item)" nz-row nzType="flex" nzJustify="space-around" nzAlign="middle"
+                    style="background-color:white;">
+                    <div nz-col nzSpan="8" style="text-align:center;">包名称:{{item.bmc}}</div>
+                    <div nz-col nzSpan="8" style="text-align:center;">总数量:{{item.dj_num}}</div>
+                    <div nz-col nzSpan="8" style="text-align:center;">归还数量:{{item.gh_num}}</div>
+                </nz-list-item>
+            </ng-template>
+        </nz-list>
+    </li>
+</ng-template>
+<ng-template #tplFootergh>
+        <button nz-button nzType="primary" (click)="sureaddmessagezf()">作废</button>
+</ng-template>
+
+<ng-template #tplTitleghzf>
+        <span style="font-size:20px;">归还</span>
+    </ng-template>
+    <ng-template #tplContentghzf>
+        <div class="modelcontent">
+            <ul>
+                <li>
+                    <span class="textpackagenum">本次归还数量</span>
+                    <input style="width: 200px;" nz-input [(ngModel)]="ghnum">
+                </li>
+            </ul>
+        </div>
+    </ng-template>
+    <ng-template #tplFooterghzf>
+        <button nz-button nzType="primary" (click)="sureaddmessagegh()">归还</button>
+
+    </ng-template>

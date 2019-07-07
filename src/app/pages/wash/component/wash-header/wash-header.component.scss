@@ -1,0 +1,70 @@
+@import '../../../../../assets/styles.scss';
+
+.header {
+    height: 60px;
+    background: $header-background-color;
+    padding: 0 20px 0 15px;
+    overflow: hidden;
+    .anticon-left {
+        margin-left: 2px;
+        color:#FBFBFC;
+        line-height: 60px;
+        font-size: 18px;
+    }
+    .userinfo{
+        margin-left:20px;
+        color:white;
+        font-size:16px;
+    }
+    .title {
+        margin-left: 8px;
+        font-size: 18px;
+        color: #FFFFFF;
+        letter-spacing: 0;
+        line-height: 60px;
+    }
+    .title:hover{
+        cursor: pointer;
+    }
+    .out{
+        margin-left:15px;
+        color:#ACCFFF;
+        font-size:16px; 
+    }
+    .out:hover{
+        cursor: pointer;
+    }
+
+    button {
+        font-size:16px;
+        height: 30px;
+        width: 140px;
+        float: right;
+        margin-top: 10px;
+        +button {
+            margin-right: 10px;
+        }
+    }
+}
+
+::ng-deep .ant-confirm .ant-confirm-btns{
+    top:0;
+    left:50%;
+    transform:translate(-120%,0);
+}
+::ng-deep .ant-modal-header{
+    background-color:#F1F2F6;
+}
+
+::ng-deep .ant-modal-footer{
+    display: -webkit-flex;
+    -webkit-justify-content: center;
+    -webkit-align-items: center;
+}
+.spanbut{
+  float:right;
+  color:white;
+  font-size:18px;
+  padding:12px;
+}
+

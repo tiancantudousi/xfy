@@ -1,0 +1,19 @@
+
+<div class="sider">
+  <div *ngIf="!showresult" class="sider-item" [class.active]="true" (click)="getwashers()">
+      <img src="../../../../../assets/images/washregister.png"/>
+      <span>清洗登记</span>
+  </div>
+  <div *ngIf="showresult" class="sider-item" [class.active]="true" (click)="goresult()"> 
+      <img src="../../../../../assets/images/washresult.png"/>
+      <span>清洗检定</span>
+  </div>
+  <!-- <div class="sider-item" [class.active]="chooseobj.check" (click)="gocheck()">
+    <img src="../../../../../assets/images/washcheck.png"/>
+    <span>清洗质检</span>
+  </div>
+  <div class="sider-item" [class.active]="chooseobj.count" (click)="gocount()">
+    <img src="../../../../../assets/images/item-count.png"/>
+    <span>统计</span>
+  </div> -->
+</div>

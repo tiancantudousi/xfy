@@ -1,0 +1,76 @@
+.content{
+    display: -webkit-flex;
+    height:100%;
+    .left{
+        flex:none;
+        width:200px;
+        height:100%;
+        overflow-y: scroll;
+        background-color:  #F2F5FA;
+        .leftitem{
+           height:50px;
+        }
+    }
+    .right{
+        -webkit-flex: 1;
+        display: -webkit-flex;
+        flex-direction: column;
+        .paper{
+            // height:80px;
+            flex:none;
+            padding-left:10px;
+            display: flex;
+            -webkit-justify-content: space-between;
+            padding:10px;
+            background-color: #E9E9E9;
+            .time{
+                padding-right:30px;
+            }
+            .time+span{
+                 padding-right: 10px;
+            }
+        }
+        .tmid{   
+            // height:80px; 
+            flex:none;      
+            display: -webkit-flex;
+            -webkit-align-items: center;
+            padding:10px 10px 10px 20px;
+            &>span{
+                margin-right:10px;
+            }
+            &>input{
+                width:180px;
+            }
+        }
+        .selflist{
+            -webkit-flex: 1;
+            flex-direction: column;
+            display: -webkit-flex;
+            .listhead{
+                height:60px;
+                background-color: #E9E9E9;
+            }
+            .listcontent{
+                 -webkit-flex: 1;
+                 overflow-y:scroll;
+                 padding-left:10px;
+            }
+        }
+    }
+}
+:host ::ng-deep .ant-list-item{
+    padding-left:0;
+    padding-right:0;
+}
+:host ::ng-deep .ant-list-item:hover{
+   cursor: pointer;
+}
+::ng-deep .selfactive{
+    background-color: #1890FF;
+    color:white;
+}
+.listcontent{
+    -webkit-flex: 1;
+    overflow-y:scroll; 
+}

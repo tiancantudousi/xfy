@@ -1,0 +1,11 @@
+<div class="header">
+  <i class="anticon anticon-left" (click)="gobackhome()"></i>
+  <span class="title" (click)="gobackhome()">{{deptName}}</span>
+  <span class="userinfo">欢迎您,{{userName}}</span>
+  <span class="userinfo">{{deptName}} |</span>
+  <span class="out" (click)="loginout()">退出</span>
+  <div class="headcontent">
+      <ng-content></ng-content>
+  </div>
+  
+</div>

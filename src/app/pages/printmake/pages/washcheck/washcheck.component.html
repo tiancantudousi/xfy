@@ -1,0 +1,146 @@
+<div class="washresult">
+    <div class="left">
+    
+        <nz-date-picker style="margin:10px auto;" [nzFormat]="dateFormat" [(ngModel)]="choosetime" [nzDisabledDate]="disabledDate" (ngModelChange)="getlist()"></nz-date-picker>
+        <nz-list *ngIf="washresult.length!=0" [nzDataSource]="washresult" nzBordered [nzRenderItem]="item" class="liststyle">
+          <ng-template #item let-item>
+            <nz-list-item nz-row nzType="flex" nzAlign="middle" [class.changecolor]="item.active" class="washlist" (click)="choosemachine(item)">
+                <div class="circle"> <span [class]="item.result=='1'?'blank':(item.result=='0'?'washing':'tobetest')">{{item.result_name?item.result_name:'待检定'}}</span> </div> 
+                <div class="rightdiv">
+                  <div style="color:#293660;font-size:14px;">{{item.dev_name}}</div>
+                  <div style="font-size:12px;color:#666666;">日锅次:{{item.d_gc}}</div>
+                  <div style="font-size:12px;color:#666666;">总锅次:{{item.t_gc}}</div>
+                  <div>{{item.start_dt|getHMS|date:'yyyy-MM-dd HH:mm:ss'}}</div>  
+                </div>           
+            </nz-list-item>
+          </ng-template>
+          </nz-list>
+    </div>
+    <div class="right" *ngIf="chosenmachine">
+         
+     <div class="content">
+         
+          <div class="listheader" nz-row nzType="flex" nzJustify="space-around" nzAlign="middle">
+              <div nz-col nzSpan="3" style="text-align:center;">包名称</div>
+              <div nz-col nzSpan="3" style="text-align:center;">损耗类型</div>
+              <div nz-col nzSpan="3" style="text-align:center;">处理方式</div>
+              <div nz-col nzSpan="3" style="text-align:center;">包数量</div>     
+          </div>          
+          <nz-list class="listcontent" *ngIf="packageslist.length!=0"  [nzDataSource]="packageslist" nzBordered
+              [nzRenderItem]="item" style="background-color:#E9E9E9;">
+              <ng-template #item let-item>
+                  <nz-list-item nz-row nzType="flex" nzJustify="space-around" nzAlign="middle" style="background-color:white;">
+                      <div nz-col nzSpan="3" style="text-align:center;">{{item.bmc}}</div>
+                      <div nz-col nzSpan="3" style="text-align:center;">{{item.ng_rea_name}}</div>
+                      <div nz-col nzSpan="3" style="text-align:center;">{{item.proc_way_name}}</div>
+                      <div nz-col nzSpan="3" style="text-align:center;">{{item.num}}</div>                     
+                  </nz-list-item>
+              </ng-template>                             
+          </nz-list>
+          <div *ngIf="chosenmachine.result!='0'&&chosenmachine.result!='1'" class="bottombtnsure" button-trigger changeType="primary">
+            <button nz-button btntoggle class="ant-btn-primary" (click)="add(tplTitle,tplContent,tplFooter)">添加</button>  
+            <button nz-button  btntoggle (click)="store()">保存</button>          
+           </div>
+     </div>
+   
+    <div *ngIf="!chosenmachine" class="nodata">
+        <img src="/assets/images/washcontent.png" alt="">
+        <span>清洗结果内容</span>
+    </div>
+  </div>
+  
+  
+  
+  <ng-template #tplTitle>
+      <span style="font-size:20px;">添加</span>
+  </ng-template>
+  <ng-template #tplContent>
+      <div class="modelcontent">
+          <form nz-form [formGroup]="validateForm">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="7" nzRequired nzFor="selectedValue">包</nz-form-label>
+                <nz-form-control [nzSpan]="12">
+                    <!-- <nz-select style="width: 200px;" nzShowSearch nzAllowClear nzPlaceHolder="请输入包拼音码" (nzOpenChange)="selectopen($event)" formControlName="selectedValue" (ngModelChange)="packchange()">
+                        <nz-option nzCustomContent *ngFor="let option of packs" [nzLabel]="option.name" [nzValue]="option.bid">
+                           <div>{{option.bmc}}</div>
+                        </nz-option>
+                    </nz-select> -->
+                    <div class="relativediv">
+                        <input style="width: 200px;" nz-input placeholder="请输入包拼音码" formControlName="selectedValue"  (keyup)="packageidkeyup($event)" (click)="showul($event)">
+                        <ul class="ultop" *ngIf="showtopul&&packs.length">
+                            <li *ngFor="let item of packs" (click)="choosepackage(item,$event)">{{item.bmc}}</li>
+                        </ul>
+                    </div>                 
+                  <nz-form-explain *ngIf="validateForm.get('selectedValue').dirty && validateForm.get('selectedValue').errors">请输入包拼音码</nz-form-explain>
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-item>
+                  <nz-form-label [nzSpan]="7"  nzFor="hickey">器械</nz-form-label>
+                  <nz-form-control [nzSpan]="12">
+                      <nz-select style="width: 200px;" nzShowSearch nzAllowClear nzPlaceHolder="请输入器械名称" (nzOpenChange)="hickeyopen($event)" formControlName="hickey">
+                          <nz-option nzCustomContent *ngFor="let option of hickeys" [nzLabel]="option.name" [nzValue]="option.clid">
+                             <div>{{option.clmc}}</div>
+                          </nz-option>
+                      </nz-select>
+                    <nz-form-explain *ngIf="validateForm.get('hickey').dirty && validateForm.get('hickey').errors">请选择器械</nz-form-explain>
+                  </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="7" nzRequired nzFor="modelnumber">数量</nz-form-label>
+                    <nz-form-control [nzSpan]="12">
+                        <input style="width:100px;" nz-input placeholder="输入数量" formControlName="modelnumber">  
+                      <nz-form-explain *ngIf="validateForm.get('modelnumber').dirty && validateForm.get('modelnumber').errors">请输入数量</nz-form-explain>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <nz-form-item>
+                      <nz-form-label [nzSpan]="7" nzRequired nzFor="broketype">损耗类型</nz-form-label>
+                      <nz-form-control [nzSpan]="12">
+                          <nz-select style="width: 200px;" nzShowSearch nzAllowClear nzPlaceHolder="选择损耗类型" formControlName="broketype">
+                              <nz-option nzCustomContent *ngFor="let option of broketypes" [nzLabel]="option.aaa103" [nzValue]="option.aaa102">
+                                 <div>{{option.aaa103}}</div>
+                              </nz-option>
+                          </nz-select>
+                        <nz-form-explain *ngIf="validateForm.get('broketype').dirty && validateForm.get('broketype').errors">请选择损耗类型!</nz-form-explain>
+                      </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label [nzSpan]="7" nzRequired nzFor="borksolve">损耗处理方式</nz-form-label>
+                        <nz-form-control [nzSpan]="12">
+                            <nz-select style="width: 200px;" nzShowSearch nzAllowClear nzPlaceHolder="请选择损耗处理方式" formControlName="borksolve">
+                                <nz-option nzCustomContent *ngFor="let option of borksolves" [nzLabel]="option.aaa103" [nzValue]="option.aaa102">
+                                   <div>{{option.aaa103}}</div>
+                                </nz-option>
+                            </nz-select>
+                          <nz-form-explain *ngIf="validateForm.get('borksolve').dirty && validateForm.get('borksolve').errors">请选择损耗处理方式!</nz-form-explain>
+                        </nz-form-control>
+                      </nz-form-item>
+         </form>
+          <!-- <nz-select style="width: 200px;" nzShowSearch nzAllowClear nzPlaceHolder="请输入包拼音码" [(ngModel)]="selectedValue" (ngModelChange)="packchange()">
+              <nz-option nzCustomContent *ngFor="let option of packs" [nzLabel]="option.name" [nzValue]="option.bid">
+                 <div>{{option.bmc}}</div>
+              </nz-option>
+          </nz-select>
+          <nz-select style="width: 200px;" nzShowSearch nzAllowClear nzPlaceHolder="请输入器械名称" [(ngModel)]="hickey" (ngModelChange)="hickeychange()">
+              <nz-option nzCustomContent *ngFor="let option of hickeys" [nzLabel]="option.name" [nzValue]="option.clid">
+                 <div>{{option.clmc}}</div>
+              </nz-option>
+          </nz-select>
+          <input style="width:100px;" nz-input placeholder="输入数量" [(ngModel)]="modelnumber">  
+          <nz-select style="width: 200px;" nzShowSearch nzAllowClear nzPlaceHolder="选择损耗类型" [(ngModel)]="broketype">
+              <nz-option nzCustomContent *ngFor="let option of broketypes" [nzLabel]="option.aaa103" [nzValue]="option.aaa102">
+                 <div>{{option.aaa103}}</div>
+              </nz-option>
+          </nz-select>
+          <nz-select style="width: 200px;" nzShowSearch nzAllowClear nzPlaceHolder="请选择损耗处理方式" [(ngModel)]="borksolve">
+              <nz-option nzCustomContent *ngFor="let option of borksolves" [nzLabel]="option.aaa103" [nzValue]="option.aaa102">
+                 <div>{{option.aaa103}}</div>
+              </nz-option>
+          </nz-select> -->
+
+      </div>
+
+  
+  </ng-template>
+  <ng-template #tplFooter>
+  <button nz-button nzType="primary"  (click)="sureaddmessage()">确定</button>
+  </ng-template>

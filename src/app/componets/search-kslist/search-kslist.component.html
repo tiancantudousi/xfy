@@ -1,0 +1,13 @@
+<div #select>
+  <nz-select  nzPlaceHolder="请选择科室" [nzSize]="size" [(ngModel)]="pack" nzAllowClear nzShowSearch="true" [nzServerSearch]="true" (nzOnSearch)="onSearch($event)" (ngModelChange)="emitEvent($event)">
+   <ng-container *ngFor="let o of packs">
+     <nz-option *ngIf="!isLoading" [nzValue]="o.deptid" [nzLabel]="o.deptname"></nz-option>
+   </ng-container>
+   <nz-option nzCustomContent>
+     <nz-pagination (click)="stop($event)" [nzPageIndex]="1" [nzTotal]="total" [nzSize]="'small'" (nzPageIndexChange)="indexchange($event)"></nz-pagination>
+   </nz-option>
+   <nz-option *ngIf="isLoading" nzDisabled nzCustomContent>
+     <i nz-icon type="loading" class="loading-icon"></i> Loading Data...
+   </nz-option>
+  </nz-select>
+</div>

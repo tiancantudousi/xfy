@@ -1,0 +1,72 @@
+@import '../../../../../assets/styles.scss';
+
+.header {
+    height: 60px;
+    background: $header-background-color;
+    padding: 0 20px 0 15px;
+    .anticon-left {
+        margin-left: 2px;
+        color:#FBFBFC;
+        line-height: 60px;
+        font-size: 18px;
+    }
+    .userinfo{
+        margin-left:20px;
+        color:white;
+        font-size:16px;
+    }
+    .title {
+        margin-left: 8px;
+        font-size: 18px;
+        color: #FFFFFF;
+        letter-spacing: 0;
+        line-height: 60px;
+    }
+    .title:hover{
+        cursor: pointer;
+    }
+    .out{
+        margin-left:15px;
+        color:#ACCFFF;
+        font-size:16px; 
+    }
+    .out:hover{
+        cursor: pointer;
+    }
+
+    button {
+        height: 30px;
+        width: 120px;
+        float: right;
+        margin-top: 10px;
+        +button {
+            margin-right: 10px;
+        }
+    }
+}
+
+::ng-deep .ant-confirm .ant-confirm-btns{
+    top:0;
+    left:50%;
+    transform:translate(-120%,0);
+}
+::ng-deep .ant-modal-header{
+    background-color:#F1F2F6;
+}
+
+::ng-deep .ant-modal-footer{
+    display: -webkit-flex;
+    -webkit-justify-content: center;
+    -webkit-align-items: center;
+}
+.modelcontent{
+  height:400px;
+  .modelcontentdiv{
+    margin:10px;
+    display: -webkit-flex;
+    span{
+      width:100px;
+    }
+  }
+}
+

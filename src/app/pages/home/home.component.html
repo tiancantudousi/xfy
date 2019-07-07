@@ -1,0 +1,30 @@
+<div class="homebg">
+   <div class="images">
+   
+         <img class="signimg signimg1" [src]="btnsrc1" (click)="btn1()"  [ngClass]="{'disableimg':btnsrc1power}"  alt="">
+          <img class="signimg signimg2" [src]="btnsrcadd1"  (click)="btn2()" [ngClass]="{'disableimg':btnsrcadd1power}"  alt="">
+        <img class="signimg signimg3" [src]="btnsrc2" [ngClass]="{'disableimg':btnsrc2power}" (click)="btn3()" alt="">
+         <img  class="signimg signimg4" [src]="btnsrc3" (click)="btn4()" [ngClass]="{'disableimg':btnsrc3power}"  alt="">
+
+        <img class="signimg signimg5"  [src]="btnsrc4" (click)="btn5()" [ngClass]="{'disableimg':btnsrc4power}"  alt="">
+        <img class="signimg signimg6" [src]="btnsrcadd2" (click)="btn6()" [ngClass]="{'disableimg':btnsrcadd2power}" alt="">
+         <img  class="signimg signimg7" [src]="btnsrc5" (click)="btn7()"  [ngClass]="{'disableimg':true}" alt="">
+         <img class="signimg signimg8" [src]="btnsrc6" (click)="btn8()" [ngClass]="{'disableimg':btnsrc6power}"  alt="">
+   </div>
+   <button class="jump" nz-button nzType="primary" nzSize="large" (click)="jump()">跳转</button>  
+   <button class="logout" nz-button nzType="primary" nzSize="large" (click)="logout()">退出</button>  
+</div>
+
+<ng-template #template let-notification>
+    <div class="ant-notification-notice-content">
+      <div>
+        <div class="ant-notification-notice-message">通知</div>
+        <div class="ant-notification-notice-description">
+          有新的使用申请单请审核
+        </div>
+        <span class="ant-notification-notice-btn" (click)="gouseapply()">
+          <button nz-button nzType="primary" nzSize="small" (click)="notification.close()"><span>确定</span></button>
+        </span>
+      </div>
+    </div>
+  </ng-template>

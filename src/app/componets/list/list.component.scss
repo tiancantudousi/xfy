@@ -1,0 +1,13 @@
+.zlist{
+    height:100%;
+    display: -webkit-flex;
+    flex-direction: column;
+    .head{
+       height:50px;
+       flex:none;
+    }
+    .listcontent{
+       -webkit-flex: 1;
+       overflow-y:scroll; 
+    }
+}

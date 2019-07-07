@@ -1,0 +1,23 @@
+<div class="sider">
+  <div class="sider-item" [class.active]="chooseobj.washcheck" (click)="gowashcheck()">
+    <img src="../../../../../assets/images/清洗质检.png" />
+    <span>清洗质检</span>
+  </div>
+  <div class="sider-item" [class.active]="chooseobj.count" (click)="gocount()">
+    <img src="../../../../../assets/images/统计.png" />
+    <span>质检统计</span>
+  </div>
+  <div class="sider-item" [class.active]="chooseobj.confect" (click)="goresult()">
+    <img src="../../../../../assets/images/打包.png" />
+    <span>配包/打包</span>
+  </div>
+  <div class="sider-item" [class.active]="chooseobj.print" (click)="goprint()">
+    <img src="../../../../../assets/images/打印.png" />
+    <span>打印</span>
+  </div>
+  <div class="sider-item" [class.active]="chooseobj.wlb" (click)="wlb()">
+    <img src="../../../../../assets/images/直接.png" />
+    <span>外来包</span>
+  </div>
+
+</div>

@@ -1,0 +1,33 @@
+<nz-layout>
+  <nz-header>
+    <app-header>
+        <!-- <button style="margin-right:10px;"  nz-button>当日总锅次{{todaytotaltimes}}</button>
+          <button style="margin-right:10px;"  nz-button>当前锅次{{totaltimes}}</button>
+          <button nz-button>当前总锅次{{todaytimes}}</button>   -->
+    </app-header>
+  </nz-header>
+  <nz-layout>
+    <nz-sider>
+      <app-slider button-trigger changeType="selfactive">
+          <div *ngIf="!showresult" class="sider-item selfactive" btntoggle (click)="goteril()">
+              <img src="/assets/images/灭菌rectangle.png"/>
+              <span>灭菌</span>
+          </div>
+          <div *ngIf="showresult" class="sider-item" btntoggle (click)="goresult()"> 
+              <img src="/assets/images/检定.png"/>
+              <span>灭菌检定</span>
+          </div>
+          <div *ngIf="showresult" class="sider-item" btntoggle (click)="gowitlog()"> 
+              <img src="/assets/images/打印.png"/>
+              <span>湿包登记</span>
+          </div>
+      </app-slider>
+    </nz-sider>
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+  <nz-footer>
+    <app-footer></app-footer>
+  </nz-footer>
+</nz-layout>

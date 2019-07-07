@@ -1,0 +1,29 @@
+.tag{
+    height:42px;
+    line-height:42px;
+    font-size: 16px;
+    width:100%;
+    padding-left:15px;
+    background: #E9E9E9;
+}
+ul{
+    background-color: white;
+    margin:0;
+    padding:10px 0;
+    li{
+        span{
+            width:30%; 
+        }
+        label{
+            width:28%;
+        }
+        display: -webkit-flex;
+        margin:10px 0;
+       //  -webkit-justify-content: space-between;
+        padding:0 5px;
+        -webkit-align-items: center;
+        &>input{
+            width:70%;
+        }
+    }
+}

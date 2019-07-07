@@ -1,0 +1,37 @@
+<div class="header" button-trigger changeType="primary">
+    <i class="anticon anticon-left" (click)="gobackhome()"></i>
+    <span class="title" (click)="gobackhome()">{{deptName}}</span>
+    <span class="userinfo">欢迎您,{{userName}}</span>
+    <span class="userinfo">{{deptName}} |</span>
+    <span class="out" (click)="loginout()">退出</span>
+    
+    <button *ngIf="!showmakepackage&&hideall" nz-button btntoggle   (click)="reprint()">重新打印</button>   
+    <button *ngIf="!showmakepackage&&hideall" nz-button btntoggle [ngClass]="{'ant-btn-primary':active}"  (click)="goprint()">非清洗打印</button>
+    <!-- <button *ngIf="!showmakepackage&&hideall" nz-button btntoggle class="ant-btn-primary"  (click)="gowashprint()">清洗打印</button>  -->
+    <button *ngIf="!showmakepackage&&hideall" nz-button btntoggle  (click)="createModal(tplTitle, tplContent, tplFooter)">打印设置</button> 
+    <button *ngIf="showmakepackage&&hideall" nz-button btntoggle  (click)="makePackage()">打包</button>   
+    <button *ngIf="showmakepackage&&hideall" nz-button btntoggle  (click)="directConfect()">直接配包</button>
+    <button *ngIf="showmakepackage&&hideall" nz-button btntoggle class="ant-btn-primary"   (click)="confectPackage()">配包</button>
+   
+</div>
+<ng-template #tplTitle>
+  <span style="font-size:20px;">添加</span>
+</ng-template>
+<ng-template #tplContent>
+  <div class="modelcontent">
+  
+      <div class="modelcontentdiv">
+        <span>打印机ip</span>
+        <input style="width:200px;" nz-input placeholder="输入ip" [(ngModel)]="machineip">  
+      </div>
+      <div class="modelcontentdiv">
+        <span>打印机名称</span>
+        <input style="width:200px;" nz-input placeholder="输入名称" [(ngModel)]="machinename">  
+      </div>
+  </div>
+
+
+</ng-template>
+<ng-template #tplFooter>
+<button nz-button nzType="primary" (click)="sure()">确定</button>
+</ng-template>

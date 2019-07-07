@@ -1,0 +1,114 @@
+<div class="modalcontent" >
+    <audio #audioID  style="visibility: hidden;" src="/assets/success.ogg">你的浏览器不支持这个格式的音频播放</audio>
+    <div id='bdtts_div_id' style="display: none;flex:1;"></div>
+      <div nz-row nzType="flex" nzAlign="middle" style="height:50px;">
+         
+        <span style="font-size:16px;width:52px;padding-right:10px;" >科室</span>
+        <app-search-kslist  (ChosePack)="onChoseKs($event)" [size]="'default'" [Width]="'260px'"></app-search-kslist>  
+      
+        <!-- <span style="padding:0 10px;">科室</span>
+        <input style="width:200px;" nz-input #ksinput placeholder="输入扫描科室" [(ngModel)]="ksvalue" (keyup)="gethouse1($event)">    -->
+        <app-search-slide (ChosePack)="onChosePack($event)" style="margin-top:10px;"></app-search-slide>  
+    
+        <div>
+          <button nz-button nzType="primary" (click)="onClick()">回收</button>
+         </div>
+      </div>
+     
+      <div style="margin-top:10px;flex:1;display:flex;flex-direction: column;    overflow-y: hidden;"> 
+ 
+          <!-- <nz-list [nzDataSource]="[1]" nzBordered style="flex:none;"
+              [nzRenderItem]="item1">
+              <ng-template #item1 let-item>
+                <nz-list-item nzAlign="middle" >
+                
+                </nz-list-item>
+              </ng-template>
+
+          </nz-list> -->
+          <div class="listhead" nz-row nzType="flex" nzJustify="space-around" nzAlign="middle" style="flex:none;">           
+              <div nz-col nzSpan="1" style="text-align:center;"><label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()" [nzIndeterminate]="indeterminate"></label></div>   
+              <div nz-col nzSpan="6" style="text-align:center;">科室</div>   
+              <div nz-col nzSpan="3" style="text-align:center;">包名称</div>
+              <div nz-col nzSpan="3" style="text-align:center;">包数量</div> 
+              <div nz-col nzSpan="3" style="text-align:center;">是否借包</div> 
+              <div nz-col nzSpan="3" style="text-align:center;">回收数量</div> 
+              <div nz-col nzSpan="3" style="text-align:center;">操作</div> 
+         </div> 
+
+            <!-- <nz-list [nzDataSource]="tempdata" nzBordered
+                [nzRenderItem]="item" class="scroll-list" style="background-color:#E9E9E9;height:900px;">
+                <ng-template #item let-item>
+                  <nz-list-item (click)="selectPackage(item)" [ngStyle]="{'check':item.checked}" [ngClass]="{'blank':item.ff_type=='是','check':item.checked,'noelse':item.ff_type=='否'&&!item.checked}" nz-row nzSpan="1" nzType="flex" nzJustify="space-around" nzAlign="middle" >
+                      <div nz-col nzSpan="1" style="text-align:center;"><label nz-checkbox [(ngModel)]="item.checked"  (click)="stop($event)"  (ngModelChange)="updateSingleChecked()"></label></div>   
+                      <div nz-col nzSpan="6" style="text-align:center;">{{item.deptname}}</div>   
+                      <div nz-col nzSpan="3" style="text-align:center;">{{item.bmc}}</div>  
+                      <div nz-col nzSpan="3" style="text-align:center;">{{item.bsl}}</div>    
+                      <div nz-col nzSpan="3" style="text-align:center;">{{item.ff_type}}</div> 
+                      <div nz-col nzSpan="3" style="text-align:center;">   
+                        <input style="text-align: right; width:60px;" nz-input placeholder="数量" (keyup)="numchange(item)" [class.warnings]="item.warning" (click)="stop($event)" [(ngModel)]="item.temp_num"> 
+                        <i style="color:#FA5317;" class="anticon anticon-exclamation-circle warning" *ngIf="item.warning"></i> 
+                      </div>   
+                      <div nz-col nzSpan="3" style="text-align:center;"><button nz-button nzType="defalut" (click)="dohs(item)">确定</button></div>       
+                     
+                  </nz-list-item>
+                </ng-template>
+     
+           </nz-list> -->
+           <nz-list class="scroll-list"   [nzDataSource]="tempdata" nzBordered [nzRenderItem]="item">
+              <ng-template #item let-item>
+                  <nz-list-item (click)="selectPackage(item)" [ngStyle]="{'check':item.checked}" [ngClass]="{'blank':item.ff_type=='是','check':item.checked,'noelse':item.ff_type=='否'&&!item.checked}" nz-row nzSpan="1" nzType="flex" nzJustify="space-around" nzAlign="middle" >
+                      <div nz-col nzSpan="1" style="text-align:center;"><label nz-checkbox [(ngModel)]="item.checked"  (click)="stop($event)"  (ngModelChange)="updateSingleChecked()"></label></div>   
+                      <div nz-col nzSpan="6" style="text-align:center;">{{item.deptname}}</div>   
+                      <div nz-col nzSpan="3" style="text-align:center;">{{item.bmc}}</div>  
+                      <div nz-col nzSpan="3" style="text-align:center;">{{item.bsl}}</div>    
+                      <div nz-col nzSpan="3" style="text-align:center;">{{item.ff_type}}</div> 
+                      <div nz-col nzSpan="3" style="text-align:center;">   
+                        <input style="text-align: right; width:60px;" nz-input placeholder="数量" (keyup)="numchange(item)" [class.warnings]="item.warning" (click)="stop($event)" [(ngModel)]="item.temp_num"> 
+                        <i style="color:#FA5317;" class="anticon anticon-exclamation-circle warning" *ngIf="item.warning"></i> 
+                      </div>   
+                      <div nz-col nzSpan="3" style="text-align:center;"><button nz-button nzType="defalut" (click)="dohs(item)">确定</button></div>       
+                      <!-- <div nz-col nzSpan="4" style="text-align:center;">{{item.tmid}}</div>             -->
+                  </nz-list-item>
+              </ng-template>
+            </nz-list>
+    
+      </div>
+      <div class="loss">
+            <div class="loss-head">
+              <div *ngIf="selectItem">
+                <span class="name">{{selectItem.bmc}}</span>
+                <span class="tab">|</span>
+                <!-- <span class="num">材料数量 {{selectItem.clsl}}</span> -->
+                <button nz-button  class="primary-button" (click)="getlosstype(tplTitle,tplFooter)">损耗登记</button>
+                <ng-template #tplTitle>
+                    <span style="font-size:20px;">损耗登记</span>
+                </ng-template>
+                  <ng-template #tplContent>
+                   
+                  </ng-template>
+                  <ng-template #tplFooter>
+                        <button nz-button nzType="primary" (click)="destroyTplModal()">确定({{recovercount}})</button>
+                  </ng-template>
+              </div>
+            </div>
+            <div class="loss-body" #losscontent>
+              <div class="loss-content"  *ngIf="materialArray.length !== 0">
+                <img [src]="activeImg"/>
+                <div class="appliance-list">
+                  <div class="row" *ngFor="let item of materialArray, let index1 = index">
+                    <span class="item" *ngFor="let childItem of item, let index2 = index">
+                      {{index1 * 5 + index2 + 1}}.{{childItem.clmc}}*{{childItem.cl_num}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="loss-content loss-no-data" *ngIf="materialArray.length === 0">
+                <img src="../../../../../assets/images/recovery-loss-no-data.png"/>
+                <span class="no-data-text">包内容</span>
+              </div>
+            </div>
+          </div>   
+
+</div>
+

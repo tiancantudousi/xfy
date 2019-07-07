@@ -1,0 +1,42 @@
+.lossul{
+    width:100%;
+}
+.lossul>li{
+    float:left;
+    margin:5px;
+}
+.changecount{
+    border:1px solid #D6D6D6;
+    width:256px;
+    height:40px;
+    display: -webkit-flex;
+    -webkit-align-items:center;
+    -webkit-justify-content: space-between
+}
+.countbutton{
+    width:40px;
+    line-height: 40px;
+    height:100%;
+    text-align: center;
+}
+.countbutton:first-child{
+    border-right:1px solid #D6D6D6;
+}
+.countbutton:last-child{
+    border-left:1px solid #D6D6D6;
+}
+.countbutton:hover{
+    cursor: pointer;
+}
+.clickcolor{
+    background-color: #E9E9E9;
+}
+.active{
+    border:1px solid white;
+    background-color: #40a9ff;
+    color:white;
+}
+.losscord{
+  min-height:500px;
+  max-height:600px;
+}

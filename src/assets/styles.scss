@@ -1,0 +1,112 @@
+/* You can add global styles to this file, and also import other style files */
+$header-background-color: #4385DF;
+
+$side-background-color: #3A466C;
+
+*{
+    box-sizing: border-box;
+}
+ul,li{
+    list-style: none;
+    list-style-type: none;
+}
+
+address, dl, ol, p, pre, ul {
+    margin: 0;
+}
+
+.default-button {
+    background: #FFFFFF;
+    border-radius: 2px;
+    font-size: 18px;
+    color: #1758AC;
+}
+
+.default1-button {
+    border: 1px solid #5D96F4;
+    border-radius: 2px;
+    font-size: 16px;
+    color: #5D96F4;
+}
+
+.primary-button {
+    background: #5D96F4;
+    border-radius: 2px;
+    font-size: 18px;
+    color: #FFFFFF;
+    &:hover{
+        background: #5D96F4;
+        color: #FFFFFF;
+        opacity: .8;
+    }
+    &:focus, &.active {
+        background: #5D96F4;
+        color: #FFFFFF;
+        opacity: 1; 
+    }
+}
+
+.no-data-text {
+    font-size: 18px;
+    color: #666666;  
+}
+// .font_normal{
+//   display:inline-block;
+//   font-size: 6pt;
+//   text-align: center;
+// }
+// .font_blod{
+//   font-size: 12pt;
+//   font-weight: bold;
+//   font-family:"黑体";
+// }
+// .font_blod1{
+//   font-size: 10pt;
+//   font-weight: bold;
+//   font-family:"黑体";
+//   display:block;
+// }
+// .sxys{
+//   font-weight: bold;
+//   font-size: 10pt;
+//   font-family:"黑体";
+// }
+// .rightDiv{
+//   padding: 0;
+//   clear: both;
+//   font-size:8pt;
+// }
+// .rightDiv ul{
+//   padding:0px;
+//   margin:0px;
+// }
+// .rightDiv ul li{
+//   list-style-type: none;
+// }
+// .rightDiv .leftLi{
+//   width: 36mm;
+//   display: inline-block;
+// }
+// .rightDiv .centerLi{
+//   width: 43mm;
+//   display: inline-block;
+// }
+// .rightDiv .rightLi{
+//   display: inline-block;
+//   text-align:center;
+// }
+// .show-list {
+//   border-right: 1pt solid #333;
+// }
+// .show-list .item {
+//   padding: 1pt 0;
+//   border-top: 1pt solid #333;
+// }
+// .show-list .item.last {
+//   border-bottom: 1pt solid #333;
+// }
+// .flex-dom {
+//   display: flex;
+//   -webkit-align-items: center;
+//   -webkit-justify-content: space-between;
+// }

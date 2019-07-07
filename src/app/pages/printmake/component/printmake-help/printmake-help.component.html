@@ -1,0 +1,48 @@
+<div class="tag">打印标签设置</div>
+<ul>
+     <li> 
+         <span>灭菌机</span>
+         <nz-option nzLabel="请选择" nzValue=""></nz-option>
+         <nz-select style="width: 200px;" [(ngModel)]="sterilizer" aria-placeholder="请选择" (ngModelChange)="sterilizerchange()">
+             <nz-option *ngFor="let option of sterilizers" [nzLabel]="option.name" [nzValue]="option.id"></nz-option>
+         </nz-select>
+     </li>
+     <li>
+         <label>灭菌锅次</label>
+         <input nz-input placeholder="请输入"  
+            [(ngModel)]="sterilizationtimes">
+            <!-- (keyup)="personKeyUp($event, 1)" -->
+     </li>
+     <li>
+         <label>效期开始</label>
+         <nz-date-picker [nzFormat]="dateFormat" [(ngModel)]="formtimestart" [nzDisabledDate]="disabledDate"></nz-date-picker>
+     </li>
+     <li>
+         <span>包装材质</span>
+         <nz-select style="width: 200px;" [(ngModel)]="mertiral" [nzSize]="size" aria-placeholder="请选择">
+                <nz-option nzLabel="请选择" nzValue=""></nz-option>
+             <nz-option *ngFor="let option of mertirals" [nzLabel]="option.aaa103" [nzValue]="option.aaa102"></nz-option>
+         </nz-select>
+     </li>
+     <li>
+         <span>打包人</span>
+         <nz-select style="width: 200px;" placeholder="请输入"  [(ngModel)]="makePackagePerson" [nzSize]="size" nzShowSearch>
+              <nz-option nzLabel="编号     名称" nzValue=""></nz-option>
+              <nz-option *ngFor="let option of makePackagePersons" [nzLabel]="option.showname" [nzValue]="option.us_userid"></nz-option>
+         </nz-select>
+     </li>
+     <li>
+         <span>灭菌人</span>              
+         <nz-select style="width: 200px;" placeholder="请输入"  [(ngModel)]="killpisonPerson" [nzSize]="size" nzShowSearch>
+              <nz-option nzLabel="编号     名称" nzValue=""></nz-option>
+              <nz-option *ngFor="let option of makePackagePersons" [nzLabel]="option.showname" [nzValue]="option.us_userid"></nz-option>
+         </nz-select>
+     </li>
+     <!-- <li>
+         <span>打印样式</span>
+         <nz-select style="width: 200px;" [(ngModel)]="printType" [nzSize]="size" aria-placeholder="请选择">
+             <nz-option nzLabel="请选择" nzValue=""></nz-option>
+             <nz-option *ngFor="let option of printTypes" [nzLabel]="option.aaa103" [nzValue]="option.aaa102"></nz-option>
+         </nz-select>
+     </li> -->
+   </ul>

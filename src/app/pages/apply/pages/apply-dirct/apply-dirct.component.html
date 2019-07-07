@@ -1,0 +1,52 @@
+<div class="content" >
+    <div class="header">
+                <!-- <div class="prodiv">     -->
+                      <span style="padding:0 10px;">科室</span>
+                      <app-search-kslist  (ChosePack)="onChosePack($event)" [chosefirst]="true" [size]="sizeselect" [Width]="'260px'"></app-search-kslist>       
+                      <!-- <input type="text" nz-input #packageinput [(ngModel)]="palcevalue" placeholder="请输入科室" style="border:none;border-radius:none;" (keyup)="onKey(palcevalue,$event)">            
+                      <nz-list *ngIf="showkslist" [nzDataSource]="promptlist" nzBordered [nzRenderItem]="item" style="background-color:#E9E9E9;" class="liststyle">
+                                  <ng-template #item let-item>
+                                  <nz-list-item nz-row nzType="flex" nzJustify="space-around" nzAlign="middle" style="background-color:white;">
+                                      <div nz-col nzSpan="24" style="text-align:center;" (click)="signchoose(item)">{{item.de_deptname}}</div>            
+                                  </nz-list-item>
+                                  </ng-template>
+                      </nz-list> -->
+                      <!-- <app-search-kslist  (ChosePack)="onChosePack($event)"  [size]="'default'"></app-search-kslist> -->
+                     
+                      <!-- <app-search-kslist  (ChosePack)="onChosePack($event)" [size]="large" [Width]="'300px'"></app-search-kslist> -->
+
+               <!-- </div>         -->
+
+               <span class="textpackagenum" style="margin:0 10px;">包条码</span>
+               <input nz-input placeholder="输入包条码或扫码" [(ngModel)]="packageid" #btminput (keyup)="packageKeyup($event)">
+                <span>发放人</span>
+                <input nz-input placeholder="输入工号或扫码"  #ffrinput
+                  (keyup)="personKeyUp($event)" [(ngModel)]="afterPerson">
+
+    </div>
+    <div class="selflist">
+            <div class="listhead" nz-row nzType="flex" nzJustify="space-around" nzAlign="middle">           
+                    <div nz-col nzSpan="12" style="text-align:center;">包名称</div>
+                    <div nz-col nzSpan="12" style="text-align:center;">数量</div>
+            </div>  
+            <nz-list class="listcontent" button-trigger changeType="selfactive" [nzDataSource]="packList" nzBordered [nzRenderItem]="item">
+                    <ng-template #item let-item>
+                    <nz-list-item class="leftitem" btntoggle nz-row nzType="flex" nzJustify="space-around" nzAlign="middle" (click)="toggle(item,$event)">
+                        <div nz-col nzSpan="12" style="text-align:center;">{{item.bmc}}</div>
+                        <div nz-col nzSpan="12" style="text-align:center;">{{item.list.length}}</div>
+                        <div nz-col nzSpan="24" *ngIf="item.show">
+                          <div nz-col nzSpan="24"  nz-row *ngFor="let itemone of item.list">
+                            <div nz-col nzSpan="12" style="text-align:center;">{{itemone.tmid}}</div>
+                            <div nz-col nzSpan="12" style="text-align:center;">{{itemone.ff_dt}}</div>
+                          </div>
+                        </div>
+                        
+                    </nz-list-item>
+                    </ng-template>
+            </nz-list>
+    </div> 
+</div>
+
+
+
+

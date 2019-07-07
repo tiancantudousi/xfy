@@ -1,0 +1,20 @@
+{
+    "/bbm": {
+      "target": "http://192.168.25.53:82",
+      "changeOrigin": true,
+      "logLevel": "debug",
+      "secure": false,
+      "pathRewrite": {
+        "^/bbm":""
+      }     
+    },
+    "/api": {
+      "target": "http://192.168.25.53:82",
+      "changeOrigin": true,
+      "logLevel": "debug",
+      "secure": false,
+      "pathRewrite": {
+        "^/api":""
+      }     
+    }
+}
