@@ -25,7 +25,7 @@
     "@ngrx/store": "^6.1.2",
     "@types/jquery": "^3.3.22",
     "core-js": "^2.5.4",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "js-cookie": "^2.2.0",
     "lodash": "^4.17.11",
     "ng-zorro-antd": "^1.8.0",
